@@ -19,7 +19,7 @@ claude-ai/
 ├── index.html                 # Hub: tabs + cards linking to each course
 ├── courses/
 │   ├── claude-101/index.html  # Claude 101 quiz (~29 questions)
-│   └── claude-api/index.html  # Claude API course quiz (~33 questions)
+│   └── claude-api/index.html  # Claude API course quiz (~80 questions)
 ├── scripts/
 │   └── inject_api_quiz.py    # Dev helper to regenerate API quiz block (optional)
 └── README.md

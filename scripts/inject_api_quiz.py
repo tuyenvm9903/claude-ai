@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Replace MODULES + QUESTIONS block in courses/claude-api/index.html."""
+"""Replace MODULES + QUESTIONS block in courses/claude-api/index.html.
+
+Run after editing NEW_BLOCK below to regenerate the quiz body without
+hand-editing the (large) HTML file.
+"""
 
 from pathlib import Path
 
@@ -8,24 +12,25 @@ HTML = ROOT / "courses" / "claude-api" / "index.html"
 
 NEW_BLOCK = r'''
     const MODULES = {
-      intro:    { en: "Introduction & overview", vi: "Giới thiệu & tổng quan" },
-      api:      { en: "Accessing Claude with the API", vi: "Truy cập Claude qua API" },
-      control:  { en: "System prompts, streaming & structured output", vi: "System prompt, streaming & đầu ra có cấu trúc" },
-      eval:     { en: "Prompt evaluation", vi: "Đánh giá prompt (eval)" },
-      pengine:  { en: "Prompt engineering techniques", vi: "Kỹ thuật prompt engineering" },
-      tools:    { en: "Tool use with Claude", vi: "Tool use với Claude" },
-      rag:      { en: "RAG & agentic search", vi: "RAG & tìm kiếm agentic" },
-      features: { en: "Features of Claude", vi: "Tính năng của Claude" },
-      mcp:      { en: "Model Context Protocol", vi: "Model Context Protocol (MCP)" },
-      apps:     { en: "Anthropic apps", vi: "Ứng dụng Anthropic" },
-      agents:   { en: "Agents & workflows", vi: "Agent & workflow" },
-      privacy:  { en: "Bonus · Data and privacy", vi: "Bổ sung · Dữ liệu & quyền riêng tư" }
+      intro:    { en: "Introduction & overview",                          vi: "Giới thiệu & tổng quan" },
+      api:      { en: "Accessing Claude with the API",                    vi: "Truy cập Claude qua API" },
+      control:  { en: "System prompts, streaming & structured output",    vi: "System prompt, streaming & đầu ra có cấu trúc" },
+      eval:     { en: "Prompt evaluation",                                vi: "Đánh giá prompt (eval)" },
+      pengine:  { en: "Prompt engineering techniques",                    vi: "Kỹ thuật prompt engineering" },
+      tools:    { en: "Tool use with Claude",                             vi: "Tool use với Claude" },
+      rag:      { en: "RAG & agentic search",                             vi: "RAG & tìm kiếm agentic" },
+      features: { en: "Features of Claude",                               vi: "Tính năng của Claude" },
+      mcp:      { en: "Model Context Protocol",                           vi: "Model Context Protocol (MCP)" },
+      apps:     { en: "Anthropic apps",                                   vi: "Ứng dụng Anthropic" },
+      agents:   { en: "Agents & workflows",                               vi: "Agent & workflow" },
+      privacy:  { en: "Bonus · Data and privacy",                         vi: "Bổ sung · Dữ liệu & quyền riêng tư" }
     };
 
     const QUESTIONS = [
+      // ─── Intro ───────────────────────────────────────────────────────
       { module: "intro",
-        q: { en: "What is the main focus of “Building with the Claude API”?",
-             vi: "Trọng tâm chính của khóa “Building with the Claude API” là gì?" },
+        q: { en: "What is the main focus of \"Building with the Claude API\"?",
+             vi: "Trọng tâm chính của khóa \"Building with the Claude API\" là gì?" },
         options: [
           { en: "Training foundation models from scratch on raw GPUs",
             vi: "Huấn luyện foundation model từ đầu trên GPU thô" },
@@ -42,6 +47,46 @@ NEW_BLOCK = r'''
           vi: "Khóa học tập trung vào tích hợp API: xác thực, hội thoại, tool, RAG, MCP và các pattern triển khai ứng dụng dùng Claude."
         }
       },
+      { module: "intro",
+        q: { en: "Why does the course start with an Anthropic / Claude models overview?",
+             vi: "Vì sao khóa học mở đầu bằng phần tổng quan Anthropic và các model Claude?" },
+        options: [
+          { en: "To convince you to leave the field of AI",
+            vi: "Để thuyết phục bạn rời khỏi ngành AI" },
+          { en: "So you can pick the right model and understand Anthropic's safety-focused approach before writing code",
+            vi: "Để bạn chọn được model phù hợp và hiểu hướng tiếp cận an toàn của Anthropic trước khi code",
+            correct: true },
+          { en: "To memorize Anthropic's stock ticker",
+            vi: "Để học thuộc mã chứng khoán của Anthropic" },
+          { en: "To watch one-hour cinematic intros every lesson",
+            vi: "Để xem intro phim dài một tiếng mỗi bài" }
+        ],
+        explanation: {
+          en: "Knowing the Claude model lineup (e.g. Sonnet/Opus/Haiku tiers) lets you balance capability, latency, and cost.",
+          vi: "Biết các dòng model Claude (Sonnet / Opus / Haiku…) giúp bạn cân bằng năng lực, độ trễ và chi phí."
+        }
+      },
+      { module: "intro",
+        q: { en: "How should you typically choose between a smaller and a larger Claude model?",
+             vi: "Thường nên chọn giữa Claude nhỏ và lớn dựa trên tiêu chí gì?" },
+        options: [
+          { en: "Always pick the largest model for everything",
+            vi: "Luôn chọn model lớn nhất cho mọi việc" },
+          { en: "Match capability needs vs. latency / cost — small for high-volume simple tasks, large for harder reasoning",
+            vi: "Cân giữa năng lực cần thiết với độ trễ / chi phí — nhỏ cho khối lượng lớn nhưng đơn giản, lớn cho lập luận khó",
+            correct: true },
+          { en: "Pick by alphabetical name only",
+            vi: "Chọn theo bảng chữ cái" },
+          { en: "Random selection improves quality",
+            vi: "Chọn ngẫu nhiên giúp tăng chất lượng" }
+        ],
+        explanation: {
+          en: "Right-sizing models is a core production trade-off taught throughout the course — including for routing in agent workflows.",
+          vi: "Chọn model đúng năng lực là trade-off cốt lõi xuyên suốt khóa học — bao gồm khi routing trong workflow agent."
+        }
+      },
+
+      // ─── Accessing the API ───────────────────────────────────────────
       { module: "api",
         q: { en: "How do you authenticate Anthropic API requests?",
              vi: "Bạn xác thực request Anthropic API như thế nào?" },
@@ -59,6 +104,63 @@ NEW_BLOCK = r'''
         explanation: {
           en: "Use API keys from the Anthropic Console with official SDKs or REST calls; manage keys securely (env vars, secret stores).",
           vi: "Dùng API key từ Anthropic Console với SDK hoặc REST; quản lý key an toàn (biến môi trường, secret store)."
+        }
+      },
+      { module: "api",
+        q: { en: "Where do you generate an Anthropic API key?",
+             vi: "Bạn tạo Anthropic API key ở đâu?" },
+        options: [
+          { en: "From a random GitHub gist",
+            vi: "Trong một gist GitHub ngẫu nhiên" },
+          { en: "Inside the Anthropic Console (console.anthropic.com), in the API keys section of your account",
+            vi: "Trong Anthropic Console (console.anthropic.com), mục API keys của tài khoản",
+            correct: true },
+          { en: "By emailing claude.ai support",
+            vi: "Bằng cách email cho support claude.ai" },
+          { en: "By installing a npm package called fake-key",
+            vi: "Bằng cách cài npm package tên fake-key" }
+        ],
+        explanation: {
+          en: "Keys come from the Anthropic Console under your organization's account. Treat them like passwords.",
+          vi: "Key được tạo trong Anthropic Console thuộc tài khoản tổ chức. Hãy bảo mật như mật khẩu."
+        }
+      },
+      { module: "api",
+        q: { en: "What is the safest place for an API key in a typical app?",
+             vi: "Nơi an toàn để lưu API key trong app thông thường?" },
+        options: [
+          { en: "Hard-coded in the frontend bundle",
+            vi: "Hard-code trong bundle frontend" },
+          { en: "Pushed to a public Git repo for backup",
+            vi: "Push lên repo Git công khai để backup" },
+          { en: "In a server-side env variable / secret store, never exposed to the browser",
+            vi: "Trong biến môi trường / secret store phía server, không lộ ra trình duyệt",
+            correct: true },
+          { en: "Printed on a sticky note on your monitor",
+            vi: "Dán giấy nhớ trên màn hình" }
+        ],
+        explanation: {
+          en: "Keys belong server-side. Public exposure can lead to abuse and surprise bills.",
+          vi: "Key thuộc về phía server. Lộ ra công khai dễ bị lạm dụng và phát sinh chi phí bất ngờ."
+        }
+      },
+      { module: "api",
+        q: { en: "Which endpoint family is most central when chatting with Claude?",
+             vi: "Họ endpoint nào quan trọng nhất khi chat với Claude?" },
+        options: [
+          { en: "/v1/images/generations",
+            vi: "/v1/images/generations" },
+          { en: "/v1/messages (the Messages API)",
+            vi: "/v1/messages (Messages API)",
+            correct: true },
+          { en: "/v1/embed-only",
+            vi: "/v1/embed-only" },
+          { en: "/v1/legacy-fax",
+            vi: "/v1/legacy-fax" }
+        ],
+        explanation: {
+          en: "The Messages API is the modern entry point for chat-style requests with Claude.",
+          vi: "Messages API là entry point hiện đại cho các request kiểu chat với Claude."
         }
       },
       { module: "api",
@@ -80,6 +182,46 @@ NEW_BLOCK = r'''
           vi: "Bạn gửi các lượt trước dưới dạng message có cấu trúc để Claude giữ ngữ cảnh hội thoại."
         }
       },
+      { module: "api",
+        q: { en: "Why is `max_tokens` typically required on a Messages API request?",
+             vi: "Vì sao request Messages API thường bắt buộc `max_tokens`?" },
+        options: [
+          { en: "It controls Claude's price per share",
+            vi: "Điều chỉnh giá cổ phiếu Claude" },
+          { en: "It caps how many output tokens Claude may generate, controlling cost and runtime",
+            vi: "Giới hạn số token đầu ra Claude được phép sinh, kiểm soát chi phí và thời gian chạy",
+            correct: true },
+          { en: "It tells Claude how many users may chat",
+            vi: "Báo cho Claude bao nhiêu user được chat" },
+          { en: "It doubles your monthly quota",
+            vi: "Nhân đôi quota hàng tháng" }
+        ],
+        explanation: {
+          en: "max_tokens bounds the response length. Tune it to your output expectations to avoid runaway generations.",
+          vi: "max_tokens giới hạn độ dài trả lời. Đặt theo kỳ vọng đầu ra để tránh sinh quá đà."
+        }
+      },
+      { module: "api",
+        q: { en: "Whose responsibility is it to keep prior turns when continuing a conversation?",
+             vi: "Trách nhiệm giữ các lượt trước khi tiếp tục hội thoại thuộc về ai?" },
+        options: [
+          { en: "Claude — it remembers users globally between requests",
+            vi: "Claude — tự nhớ user xuyên giữa các request" },
+          { en: "The client/app — it stores history and resends relevant prior messages each request",
+            vi: "Client/app — lưu lịch sử và gửi lại các message phù hợp mỗi request",
+            correct: true },
+          { en: "The DNS resolver",
+            vi: "DNS resolver" },
+          { en: "Nobody — context is impossible",
+            vi: "Không ai cả — không thể giữ ngữ cảnh" }
+        ],
+        explanation: {
+          en: "API requests are stateless: your application persists conversation history and includes it in subsequent requests.",
+          vi: "API stateless: ứng dụng của bạn lưu lịch sử và đính kèm vào các request kế tiếp."
+        }
+      },
+
+      // ─── System prompts / streaming / structured output ──────────────
       { module: "control",
         q: { en: "What is the primary purpose of a system prompt?",
              vi: "Mục đích chính của system prompt là gì?" },
@@ -97,6 +239,25 @@ NEW_BLOCK = r'''
         explanation: {
           en: "System prompts set policies, tone, formatting rules, and safety guidance that persist across the conversation.",
           vi: "System prompt đặt chính sách, giọng điệu, quy tắc định dạng và hướng dẫn an toàn xuyên suốt hội thoại."
+        }
+      },
+      { module: "control",
+        q: { en: "Where does the system prompt live in the Messages API?",
+             vi: "Trong Messages API, system prompt đặt ở đâu?" },
+        options: [
+          { en: "Inside the first user message as a normal text",
+            vi: "Bên trong message user đầu tiên dưới dạng text thường" },
+          { en: "In a top-level `system` field separate from the messages array",
+            vi: "Ở trường top-level `system`, tách khỏi mảng messages",
+            correct: true },
+          { en: "It must be embedded as a base64 image",
+            vi: "Phải nhúng dưới dạng ảnh base64" },
+          { en: "It is auto-derived from your API key",
+            vi: "Được tự suy ra từ API key" }
+        ],
+        explanation: {
+          en: "Anthropic's Messages API takes `system` as a separate top-level field rather than mixing it into messages.",
+          vi: "Messages API của Anthropic nhận `system` là field top-level riêng, không trộn vào messages."
         }
       },
       { module: "control",
@@ -119,6 +280,25 @@ NEW_BLOCK = r'''
         }
       },
       { module: "control",
+        q: { en: "When is a low (or zero) temperature usually preferred?",
+             vi: "Khi nào thường nên dùng temperature thấp (hoặc 0)?" },
+        options: [
+          { en: "When you want creative copywriting with many variations",
+            vi: "Khi cần viết quảng cáo sáng tạo, nhiều biến thể" },
+          { en: "Tasks that need consistency, structured output, classification, or extraction",
+            vi: "Các tác vụ cần nhất quán, đầu ra cấu trúc, phân loại, trích xuất",
+            correct: true },
+          { en: "Brainstorming poetry",
+            vi: "Brainstorm thơ" },
+          { en: "Roleplay games",
+            vi: "Game nhập vai" }
+        ],
+        explanation: {
+          en: "Lower temperatures help reproducibility — useful for parsing, extraction, code generation, and tool calling.",
+          vi: "Temperature thấp giúp tái lập — phù hợp parsing, trích xuất, sinh code và gọi tool."
+        }
+      },
+      { module: "control",
         q: { en: "Why use response streaming?",
              vi: "Vì sao dùng streaming phản hồi?" },
         options: [
@@ -133,8 +313,27 @@ NEW_BLOCK = r'''
             vi: "Streaming vô hiệu tool" }
         ],
         explanation: {
-          en: "Streaming lets clients render partial responses while generation continues—great for chat UIs.",
+          en: "Streaming lets clients render partial responses while generation continues — great for chat UIs.",
           vi: "Streaming cho phép hiển thị phần trả lời trong khi model còn sinh token — rất hợp UI chat."
+        }
+      },
+      { module: "control",
+        q: { en: "Which event types can a streaming Messages response include?",
+             vi: "Một response streaming của Messages có thể gồm event nào?" },
+        options: [
+          { en: "Only one final dump of text at the end",
+            vi: "Chỉ một bản đổ text cuối cùng" },
+          { en: "Server-sent events such as message_start, content_block_delta, message_stop, etc.",
+            vi: "Server-sent events như message_start, content_block_delta, message_stop…",
+            correct: true },
+          { en: "Database transactions exported as XML",
+            vi: "Transaction DB xuất XML" },
+          { en: "MIDI music notes",
+            vi: "Nốt nhạc MIDI" }
+        ],
+        explanation: {
+          en: "The streaming protocol emits typed events you handle to build up the final message.",
+          vi: "Giao thức streaming phát các event có kiểu, bạn xử lý dần để dựng message cuối."
         }
       },
       { module: "control",
@@ -152,10 +351,31 @@ NEW_BLOCK = r'''
             vi: "Tránh system prompt" }
         ],
         explanation: {
-          en: "Structured outputs integrate cleanly with databases, UIs, and automation—especially when paired with schemas or tools.",
+          en: "Structured outputs integrate cleanly with databases, UIs, and automation — especially when paired with schemas or tools.",
           vi: "Đầu ra có cấu trúc tích hợp tốt với DB, UI và tự động hóa — đặc biệt khi kèm schema hoặc tool."
         }
       },
+      { module: "control",
+        q: { en: "Which technique reliably encourages strict JSON output from Claude?",
+             vi: "Kỹ thuật nào giúp Claude trả JSON nghiêm ngặt một cách đáng tin?" },
+        options: [
+          { en: "Just hope and pray",
+            vi: "Cứ hy vọng và cầu nguyện" },
+          { en: "Use a tool / function-calling-style schema, prefill the assistant's start, and validate output before use",
+            vi: "Dùng schema kiểu tool / function-calling, prefill phần đầu assistant và validate output trước khi dùng",
+            correct: true },
+          { en: "Switch to plain Markdown only",
+            vi: "Chuyển hoàn toàn sang Markdown thuần" },
+          { en: "Disable max_tokens",
+            vi: "Tắt max_tokens" }
+        ],
+        explanation: {
+          en: "Combining schemas, prefill, and validation produces robust structured outputs in production.",
+          vi: "Kết hợp schema, prefill và validate cho ra structured output bền vững trong production."
+        }
+      },
+
+      // ─── Prompt evaluation ───────────────────────────────────────────
       { module: "eval",
         q: { en: "What is a common first step in prompt evaluation workflows?",
              vi: "Bước đầu phổ biến trong quy trình đánh giá prompt là gì?" },
@@ -194,6 +414,103 @@ NEW_BLOCK = r'''
           vi: "Chấm bằng model giúp tự động hóa nhưng vẫn cần rubric kỹ, kiểm tra chéo và lưu ý thiên kiến."
         }
       },
+      { module: "eval",
+        q: { en: "What is code-based grading best at?",
+             vi: "Code-based grading hợp nhất với loại đánh giá nào?" },
+        options: [
+          { en: "Subjective creative quality",
+            vi: "Chất lượng sáng tạo chủ quan" },
+          { en: "Objective, deterministic checks (regex, JSON-schema, exact match, unit tests)",
+            vi: "Kiểm tra khách quan, xác định (regex, JSON-schema, khớp tuyệt đối, unit test)",
+            correct: true },
+          { en: "Detecting humour",
+            vi: "Phát hiện hài hước" },
+          { en: "Choosing brand colors",
+            vi: "Chọn màu thương hiệu" }
+        ],
+        explanation: {
+          en: "Code graders are perfect for tasks with verifiable answers — combine them with model graders for soft criteria.",
+          vi: "Code grader phù hợp tác vụ có đáp án xác minh được — kết hợp với model grader cho tiêu chí mềm."
+        }
+      },
+      { module: "eval",
+        q: { en: "When should you generally combine code-based AND model-based grading?",
+             vi: "Khi nào nên kết hợp code-based VÀ model-based grading?" },
+        options: [
+          { en: "Never combine them",
+            vi: "Không bao giờ kết hợp" },
+          { en: "When you have both deterministic constraints (format, fields) and qualitative ones (tone, helpfulness)",
+            vi: "Khi vừa có ràng buộc xác định (định dạng, trường) vừa có tiêu chí định tính (giọng điệu, hữu ích)",
+            correct: true },
+          { en: "Only on weekends",
+            vi: "Chỉ vào cuối tuần" },
+          { en: "Only after launching to all users",
+            vi: "Chỉ sau khi đã release cho mọi user" }
+        ],
+        explanation: {
+          en: "Layered evaluation is common: code checks gate format/fields; model graders score quality.",
+          vi: "Đánh giá phân lớp rất phổ biến: code grader kiểm tra format/fields, model grader chấm chất lượng."
+        }
+      },
+      { module: "eval",
+        q: { en: "Why iterate on prompts using evals rather than vibes?",
+             vi: "Vì sao nên lặp prompt theo eval thay vì cảm tính?" },
+        options: [
+          { en: "Vibes-driven dev is always faster long-term",
+            vi: "Dev theo cảm tính luôn nhanh về lâu dài" },
+          { en: "Evals give measurable, repeatable feedback so improvements are real, not illusions",
+            vi: "Eval cho phản hồi đo được, lặp lại được nên cải thiện là thực, không phải ảo giác",
+            correct: true },
+          { en: "Evals replace customer feedback entirely",
+            vi: "Eval thay thế hoàn toàn phản hồi khách hàng" },
+          { en: "Evals automatically deploy to prod",
+            vi: "Eval tự deploy lên prod" }
+        ],
+        explanation: {
+          en: "Evals turn 'feels better' into measurable wins and prevent regressions across prompt changes.",
+          vi: "Eval biến \"có vẻ tốt hơn\" thành thắng lợi đo được và ngăn hồi quy khi đổi prompt."
+        }
+      },
+
+      // ─── Prompt engineering techniques ───────────────────────────────
+      { module: "pengine",
+        q: { en: "Why be \"clear and direct\" when prompting Claude?",
+             vi: "Vì sao cần \"rõ ràng và trực tiếp\" khi prompt Claude?" },
+        options: [
+          { en: "Vague prompts always outperform specific ones",
+            vi: "Prompt mơ hồ luôn vượt prompt cụ thể" },
+          { en: "Clear instructions reduce ambiguity, lower variance and yield more reliable behavior",
+            vi: "Chỉ dẫn rõ giảm mơ hồ, giảm biến thiên và cho hành vi đáng tin hơn",
+            correct: true },
+          { en: "Claude only reads emojis",
+            vi: "Claude chỉ đọc emoji" },
+          { en: "Direct prompts disable thinking",
+            vi: "Prompt trực tiếp tắt thinking" }
+        ],
+        explanation: {
+          en: "Tell Claude what to do, in what format, and any constraints. Avoid leaving the goal implicit.",
+          vi: "Hãy nói rõ với Claude làm gì, định dạng nào, ràng buộc gì. Tránh để mục tiêu ngầm hiểu."
+        }
+      },
+      { module: "pengine",
+        q: { en: "Why \"be specific\" in prompts?",
+             vi: "Vì sao prompt nên \"cụ thể\"?" },
+        options: [
+          { en: "Specifics slow the model down for no benefit",
+            vi: "Cụ thể làm model chậm mà không lợi gì" },
+          { en: "Specific audience, format, length, and constraints anchor the model toward what you actually want",
+            vi: "Audience, định dạng, độ dài và ràng buộc cụ thể neo model về đúng điều bạn muốn",
+            correct: true },
+          { en: "Specific prompts always max out tokens",
+            vi: "Prompt cụ thể luôn tối đa token" },
+          { en: "Specifics break tool use",
+            vi: "Cụ thể làm hỏng tool use" }
+        ],
+        explanation: {
+          en: "Specificity narrows the solution space — fewer wild interpretations, more on-target answers.",
+          vi: "Cụ thể thu hẹp không gian giải — ít diễn giải lệch, đáp án trúng đích hơn."
+        }
+      },
       { module: "pengine",
         q: { en: "Why structure prompts with XML-like tags?",
              vi: "Vì sao dùng thẻ kiểu XML để cấu trúc prompt?" },
@@ -209,7 +526,7 @@ NEW_BLOCK = r'''
             vi: "Thẻ loại bỏ hoàn toàn tin user" }
         ],
         explanation: {
-          en: "Tagged sections reduce ambiguity and improve consistency—especially for complex prompts.",
+          en: "Tagged sections reduce ambiguity and improve consistency — especially for complex prompts.",
           vi: "Phần được gắn thẻ giảm mơ hồ và tăng nhất quán — đặc biệt với prompt phức tạp."
         }
       },
@@ -232,19 +549,78 @@ NEW_BLOCK = r'''
           vi: "Ví dụ neo pattern: giọng điệu, cấu trúc, xử lý edge case và định dạng đầu ra."
         }
       },
-      { module: "tools",
-        q: { en: "What must tool definitions include for tool use?",
-             vi: "Định nghĩa tool cho tool use phải có gì?" },
+      { module: "pengine",
+        q: { en: "How many examples (few-shot) should you typically include?",
+             vi: "Thường nên đưa bao nhiêu ví dụ (few-shot)?" },
         options: [
-          { en: "Only the tool name—parameters are forbidden",
-            vi: "Chỉ tên tool — cấm tham số" },
-          { en: "A clear schema for inputs (parameters) so Claude can call tools safely and consistently",
-            vi: "Schema rõ ràng cho đầu vào (tham số) để Claude gọi tool an toàn và nhất quán",
+          { en: "Always exactly 100",
+            vi: "Luôn đúng 100" },
+          { en: "Enough to cover the main patterns and a couple of tricky edge cases — usually a handful",
+            vi: "Đủ để phủ pattern chính và vài edge case khó — thường vài cái",
             correct: true },
-          { en: "Your database password",
-            vi: "Mật khẩu cơ sở dữ liệu" },
-          { en: "Random Unicode characters only",
-            vi: "Chỉ ký tự Unicode ngẫu nhiên" }
+          { en: "Zero, always — examples never help",
+            vi: "Không bao giờ — ví dụ không giúp gì" },
+          { en: "Only one example, no more",
+            vi: "Chỉ một ví dụ, không hơn" }
+        ],
+        explanation: {
+          en: "A few well-chosen examples beat dozens of redundant ones — and they cost real tokens, so be deliberate.",
+          vi: "Vài ví dụ chọn kỹ thắng hàng tá ví dụ trùng lặp — và chúng tốn token thật nên cần có chủ đích."
+        }
+      },
+      { module: "pengine",
+        q: { en: "What is one classic anti-pattern in prompt engineering?",
+             vi: "Một anti-pattern kinh điển trong prompt engineering là gì?" },
+        options: [
+          { en: "Giving an audience and a target format",
+            vi: "Cho audience và format mong muốn" },
+          { en: "Vague instructions like \"do it well\" with no audience, format, or success criteria",
+            vi: "Chỉ dẫn mơ hồ kiểu \"làm cho hay\" mà không có audience, format hay tiêu chí thành công",
+            correct: true },
+          { en: "Asking the model to follow XML tags",
+            vi: "Bảo model bám thẻ XML" },
+          { en: "Showing 1–2 input/output examples",
+            vi: "Cho 1–2 ví dụ input/output" }
+        ],
+        explanation: {
+          en: "Without specificity, results vary widely. Always state goal, audience, format, and constraints.",
+          vi: "Không cụ thể thì kết quả phân tán. Luôn nêu mục tiêu, audience, format và ràng buộc."
+        }
+      },
+      { module: "pengine",
+        q: { en: "When prompting for multi-step reasoning, what helps?",
+             vi: "Khi prompt cho lập luận nhiều bước, điều gì giúp ích?" },
+        options: [
+          { en: "Telling the model to \"answer in one word\" always",
+            vi: "Luôn yêu cầu \"trả lời một từ\"" },
+          { en: "Letting the model think step-by-step or use extended thinking when supported",
+            vi: "Cho model suy luận từng bước hoặc dùng extended thinking khi được hỗ trợ",
+            correct: true },
+          { en: "Removing all context",
+            vi: "Bỏ hết context" },
+          { en: "Setting temperature to 5",
+            vi: "Đặt temperature = 5" }
+        ],
+        explanation: {
+          en: "Multi-step reasoning benefits from explicit thinking room (sections, scratchpads, or extended thinking).",
+          vi: "Lập luận nhiều bước hưởng lợi khi cho không gian suy nghĩ rõ ràng (mục phụ, scratchpad, extended thinking)."
+        }
+      },
+
+      // ─── Tool use ────────────────────────────────────────────────────
+      { module: "tools",
+        q: { en: "What three things must each tool definition typically include?",
+             vi: "Mỗi định nghĩa tool thường gồm ba thứ nào?" },
+        options: [
+          { en: "name, description, and input_schema (JSON schema for parameters)",
+            vi: "name, description, và input_schema (JSON schema cho tham số)",
+            correct: true },
+          { en: "Username, password, and birthday",
+            vi: "Username, password và ngày sinh" },
+          { en: "Color, font, and emoji",
+            vi: "Màu, font và emoji" },
+          { en: "City, ZIP code, and timezone",
+            vi: "Thành phố, ZIP code và múi giờ" }
         ],
         explanation: {
           en: "Schemas document expected arguments and types, enabling validation and fewer malformed calls.",
@@ -252,8 +628,44 @@ NEW_BLOCK = r'''
         }
       },
       { module: "tools",
+        q: { en: "When Claude wants to call a tool, what content block does it emit?",
+             vi: "Khi Claude muốn gọi tool, nó phát ra content block nào?" },
+        options: [
+          { en: "image",
+            vi: "image" },
+          { en: "tool_use",
+            vi: "tool_use", correct: true },
+          { en: "text only",
+            vi: "chỉ text" },
+          { en: "deprecation_notice",
+            vi: "deprecation_notice" }
+        ],
+        explanation: {
+          en: "Claude returns a `tool_use` block with the tool name and input; your app executes it and replies with `tool_result`.",
+          vi: "Claude trả block `tool_use` gồm tên tool và input; app bạn chạy rồi gửi lại bằng `tool_result`."
+        }
+      },
+      { module: "tools",
+        q: { en: "What is the typical stop_reason when Claude is requesting a tool call?",
+             vi: "stop_reason điển hình khi Claude đang yêu cầu gọi tool là gì?" },
+        options: [
+          { en: "end_turn",
+            vi: "end_turn" },
+          { en: "tool_use",
+            vi: "tool_use", correct: true },
+          { en: "max_tokens",
+            vi: "max_tokens" },
+          { en: "billing_issue",
+            vi: "billing_issue" }
+        ],
+        explanation: {
+          en: "stop_reason=`tool_use` signals your app to execute the requested tools and continue the conversation.",
+          vi: "stop_reason=`tool_use` báo app bạn chạy tool đã yêu cầu rồi tiếp tục hội thoại."
+        }
+      },
+      { module: "tools",
         q: { en: "After Claude requests a tool call, what does your application typically do next?",
-             vi: "Sau khi Claude yêu cầu gọi tool, ứng dụng của bạn thường làm gì tiếp?" },
+             vi: "Sau khi Claude yêu cầu gọi tool, app thường làm gì tiếp?" },
         options: [
           { en: "Ignore the tool call and stop",
             vi: "Bỏ qua tool call và dừng" },
@@ -271,6 +683,100 @@ NEW_BLOCK = r'''
         }
       },
       { module: "tools",
+        q: { en: "What identifier links a `tool_result` to its originating `tool_use` block?",
+             vi: "Định danh nào liên kết `tool_result` về `tool_use` gốc?" },
+        options: [
+          { en: "tool_use_id",
+            vi: "tool_use_id", correct: true },
+          { en: "user_id",
+            vi: "user_id" },
+          { en: "request_uuid",
+            vi: "request_uuid" },
+          { en: "There is no link",
+            vi: "Không có liên kết nào" }
+        ],
+        explanation: {
+          en: "Each `tool_result` references the `tool_use_id` of the originating tool call so Claude can match them.",
+          vi: "Mỗi `tool_result` tham chiếu `tool_use_id` của tool call gốc để Claude khớp đúng."
+        }
+      },
+      { module: "tools",
+        q: { en: "How do you handle multi-turn conversations with tools?",
+             vi: "Hội thoại đa lượt có tool xử lý thế nào?" },
+        options: [
+          { en: "Send only the first user message every time",
+            vi: "Mỗi lần chỉ gửi message user đầu tiên" },
+          { en: "Loop: send messages → get tool_use → execute → append tool_result → call again until stop_reason=end_turn",
+            vi: "Vòng lặp: gửi messages → nhận tool_use → chạy → append tool_result → gọi lại đến khi stop_reason=end_turn",
+            correct: true },
+          { en: "Use telnet only",
+            vi: "Chỉ dùng telnet" },
+          { en: "Bypass the API entirely",
+            vi: "Bỏ qua toàn bộ API" }
+        ],
+        explanation: {
+          en: "Maintain the running list of messages; keep iterating until Claude finishes naturally.",
+          vi: "Duy trì danh sách message; lặp đến khi Claude hoàn tất tự nhiên."
+        }
+      },
+      { module: "tools",
+        q: { en: "What happens with multiple tools defined?",
+             vi: "Khi định nghĩa nhiều tool thì sao?" },
+        options: [
+          { en: "Claude is forbidden from choosing",
+            vi: "Claude bị cấm lựa chọn" },
+          { en: "Claude picks the best tool(s) for the task; you can also force a specific tool with tool_choice",
+            vi: "Claude chọn tool phù hợp; bạn cũng có thể ép tool nhất định bằng tool_choice",
+            correct: true },
+          { en: "All tools must run in parallel always",
+            vi: "Mọi tool phải chạy song song bắt buộc" },
+          { en: "Multi-tool always errors",
+            vi: "Multi-tool luôn lỗi" }
+        ],
+        explanation: {
+          en: "Claude reasons over tool descriptions to choose; tool_choice can override (\"any\", a specific tool, or \"auto\").",
+          vi: "Claude lập luận qua mô tả tool để chọn; tool_choice cho phép ghi đè (\"any\", tool cụ thể, hoặc \"auto\")."
+        }
+      },
+      { module: "tools",
+        q: { en: "What is fine-grained tool calling intended to improve?",
+             vi: "Fine-grained tool calling nhằm cải thiện điều gì?" },
+        options: [
+          { en: "Larger but slower replies",
+            vi: "Câu trả lời to hơn nhưng chậm hơn" },
+          { en: "More precise, lower-latency tool calls — including streaming partial input as the model decides",
+            vi: "Tool call chính xác hơn, độ trễ thấp hơn — gồm cả streaming input khi model đang quyết",
+            correct: true },
+          { en: "Disabling tool use",
+            vi: "Vô hiệu tool use" },
+          { en: "Random output corruption",
+            vi: "Hỏng đầu ra ngẫu nhiên" }
+        ],
+        explanation: {
+          en: "Fine-grained tool calling gives developers more control and faster, more reliable tool invocations.",
+          vi: "Fine-grained tool calling cho dev nhiều quyền điều khiển hơn và gọi tool nhanh, tin cậy hơn."
+        }
+      },
+      { module: "tools",
+        q: { en: "What is the text-edit tool best at?",
+             vi: "Text-edit tool mạnh nhất ở việc gì?" },
+        options: [
+          { en: "Generating images",
+            vi: "Sinh ảnh" },
+          { en: "Performing structured edits to text/code (view, create, replace, etc.) — used by Claude Code",
+            vi: "Thực hiện chỉnh sửa có cấu trúc trên text/code (view, create, replace…) — dùng trong Claude Code",
+            correct: true },
+          { en: "Sending faxes",
+            vi: "Gửi fax" },
+          { en: "Booking flights",
+            vi: "Đặt vé máy bay" }
+        ],
+        explanation: {
+          en: "Text-edit tools enable safe, surgical changes to files instead of pasting whole rewrites.",
+          vi: "Text-edit tool cho phép sửa file an toàn, chính xác thay vì copy dán cả file."
+        }
+      },
+      { module: "tools",
         q: { en: "Which capability extends Claude with live web retrieval in supported setups?",
              vi: "Khả năng nào mở rộng Claude với tra cứu web trực tiếp trong các thiết lập được hỗ trợ?" },
         options: [
@@ -285,8 +791,29 @@ NEW_BLOCK = r'''
             vi: "Thay JSON bằng XML mọi nơi" }
         ],
         explanation: {
-          en: "Web search is presented as a tool in product/API flows where enabled—great for fresh facts with citations when available.",
+          en: "Web search is presented as a tool in product/API flows where enabled — great for fresh facts with citations.",
           vi: "Web search là một tool trong luồng API/sản phẩm khi bật — hữu ích cho thông tin mới và trích dẫn."
+        }
+      },
+
+      // ─── RAG and agentic search ──────────────────────────────────────
+      { module: "rag",
+        q: { en: "What is the core idea of retrieval-augmented generation (RAG)?",
+             vi: "Ý tưởng cốt lõi của RAG là gì?" },
+        options: [
+          { en: "Never retrieve anything — only hallucinate",
+            vi: "Không retrieve — chỉ hallucinate" },
+          { en: "Retrieve relevant context first, then generate an answer grounded in that context",
+            vi: "Retrieve ngữ cảnh liên quan trước, rồi sinh câu trả lời dựa trên đó",
+            correct: true },
+          { en: "Always fine-tune the base model on every request",
+            vi: "Luôn fine-tune base model mỗi request" },
+          { en: "Require offline-only inference",
+            vi: "Bắt buộc suy luận chỉ offline" }
+        ],
+        explanation: {
+          en: "RAG improves factual grounding by conditioning generation on retrieved documents or snippets.",
+          vi: "RAG cải thiện neo fact bằng cách điều kiện hóa sinh trên tài liệu/snippet đã retrieve."
         }
       },
       { module: "rag",
@@ -304,7 +831,7 @@ NEW_BLOCK = r'''
             vi: "RAG không bao giờ dùng chunk" }
         ],
         explanation: {
-          en: "Chunking strategy affects what gets retrieved—overlap, boundaries, and metadata matter.",
+          en: "Chunking strategy affects what gets retrieved — overlap, boundaries, and metadata matter.",
           vi: "Chiến lược chunk ảnh hưởng phần được truy xuất — overlap, ranh giới và metadata đều quan trọng."
         }
       },
@@ -347,24 +874,64 @@ NEW_BLOCK = r'''
         }
       },
       { module: "rag",
-        q: { en: "What is the core idea of retrieval-augmented generation (RAG)?",
-             vi: "Ý tưởng cốt lõi của RAG là gì?" },
+        q: { en: "What is hybrid retrieval?",
+             vi: "Hybrid retrieval là gì?" },
         options: [
-          { en: "Never retrieve anything—only hallucinate",
-            vi: "Không retrieve — chỉ hallucinate" },
-          { en: "Retrieve relevant context first, then generate an answer grounded in that context",
-            vi: "Retrieve ngữ cảnh liên quan trước, rồi sinh câu trả lời dựa trên đó",
+          { en: "Mixing two random APIs together",
+            vi: "Trộn hai API ngẫu nhiên" },
+          { en: "Combining lexical search (e.g. BM25) with dense / embedding search and fusing the results",
+            vi: "Kết hợp tìm theo từ khóa (BM25) với tìm theo embedding rồi gộp kết quả",
             correct: true },
-          { en: "Always fine-tune the base model on every request",
-            vi: "Luôn fine-tune base model mỗi request" },
-          { en: "Require offline-only inference",
-            vi: "Bắt buộc suy luận chỉ offline" }
+          { en: "Disabling all search",
+            vi: "Tắt mọi tìm kiếm" },
+          { en: "Indexing only image files",
+            vi: "Chỉ index file ảnh" }
         ],
         explanation: {
-          en: "RAG improves factual grounding by conditioning generation on retrieved documents or snippets.",
-          vi: "RAG cải thiện neo fact bằng cách điều kiện hóa sinh trên tài liệu/snippet đã retrieve."
+          en: "Hybrid pipelines win when neither lexical nor semantic alone is enough — typical for diverse corpora.",
+          vi: "Hybrid pipeline thắng khi từ khóa hoặc ngữ nghĩa đơn lẻ chưa đủ — phổ biến cho corpus đa dạng."
         }
       },
+      { module: "rag",
+        q: { en: "What problem does a multi-index RAG pipeline solve?",
+             vi: "Pipeline RAG đa-index giải quyết bài toán gì?" },
+        options: [
+          { en: "Removing all caches",
+            vi: "Xóa toàn bộ cache" },
+          { en: "Querying multiple specialized indexes (e.g. by source, language, recency) and merging results for coverage",
+            vi: "Truy vấn nhiều index chuyên biệt (theo nguồn, ngôn ngữ, độ mới) rồi gộp lại để bao phủ tốt hơn",
+            correct: true },
+          { en: "Removing chunking entirely",
+            vi: "Bỏ hoàn toàn chunking" },
+          { en: "Replacing all SQL with vibes",
+            vi: "Thay SQL bằng cảm tính" }
+        ],
+        explanation: {
+          en: "Multi-index pipelines route or fan-out queries across indices to improve recall and precision.",
+          vi: "Pipeline đa-index định tuyến hoặc fan-out truy vấn qua nhiều index để tăng recall và precision."
+        }
+      },
+      { module: "rag",
+        q: { en: "What is contextual retrieval (briefly)?",
+             vi: "Contextual retrieval (tóm tắt) là gì?" },
+        options: [
+          { en: "Retrieving without any context",
+            vi: "Retrieve mà không cần ngữ cảnh nào" },
+          { en: "Augmenting each chunk with surrounding context (e.g. a short summary) before indexing, improving retrieval quality",
+            vi: "Bổ sung ngữ cảnh xung quanh (ví dụ một tóm tắt ngắn) cho mỗi chunk trước khi index, giúp retrieval tốt hơn",
+            correct: true },
+          { en: "A pricing tier for the API",
+            vi: "Một bậc giá của API" },
+          { en: "Disabling all chunks",
+            vi: "Tắt mọi chunk" }
+        ],
+        explanation: {
+          en: "Adding context to chunks (e.g. \"this paragraph is about X in document Y\") boosts downstream retrieval accuracy.",
+          vi: "Thêm ngữ cảnh cho chunk (ví dụ \"đoạn này nói về X trong tài liệu Y\") cải thiện độ chính xác retrieval phía sau."
+        }
+      },
+
+      // ─── Features of Claude ──────────────────────────────────────────
       { module: "features",
         q: { en: "What is extended thinking mode primarily for?",
              vi: "Chế độ extended thinking chủ yếu dùng để làm gì?" },
@@ -385,22 +952,60 @@ NEW_BLOCK = r'''
         }
       },
       { module: "features",
-        q: { en: "Which multimodal inputs does the API ecosystem commonly emphasize in this course?",
-             vi: "Khóa học thường nhấn mạnh đầu vào đa phương thức nào trong hệ sinh thái API?" },
+        q: { en: "What does Claude's image input enable in apps?",
+             vi: "Đầu vào ảnh của Claude cho phép làm gì trong app?" },
         options: [
-          { en: "Only MIDI music files",
-            vi: "Chỉ file MIDI" },
-          { en: "Images (vision) and PDF/document workflows alongside text",
-            vi: "Ảnh (vision) và luồng PDF/tài liệu cùng văn bản",
+          { en: "Only renaming files",
+            vi: "Chỉ đổi tên file" },
+          { en: "Visual analysis: extracting text, describing diagrams, reading screenshots, charts, etc.",
+            vi: "Phân tích hình ảnh: trích text, mô tả sơ đồ, đọc screenshot, biểu đồ…",
             correct: true },
-          { en: "Only punch cards",
-            vi: "Chỉ thẻ đục lỗ" },
-          { en: "VR headset telemetry only",
-            vi: "Chỉ dữ liệu headset VR" }
+          { en: "Banning all PDF reading",
+            vi: "Cấm đọc PDF" },
+          { en: "Sending push notifications",
+            vi: "Gửi push notification" }
         ],
         explanation: {
-          en: "Multimodal APIs combine text with images/PDFs for richer automation (analysis, extraction, summarization).",
-          vi: "API đa phương thức kết hợp text với ảnh/PDF để tự động hóa phong phú hơn."
+          en: "Image inputs unlock OCR-like extraction, chart reading, UI inspection, and rich multimodal pipelines.",
+          vi: "Ảnh đầu vào mở khóa OCR, đọc biểu đồ, kiểm tra UI và các pipeline đa phương thức."
+        }
+      },
+      { module: "features",
+        q: { en: "Why does PDF support matter for many enterprise use cases?",
+             vi: "Vì sao PDF support quan trọng cho nhiều use case doanh nghiệp?" },
+        options: [
+          { en: "Because PDFs run faster than databases",
+            vi: "PDF chạy nhanh hơn cơ sở dữ liệu" },
+          { en: "Because much business knowledge lives in PDFs (contracts, reports, invoices) — Claude can read them directly",
+            vi: "Vì nhiều tri thức doanh nghiệp nằm trong PDF (hợp đồng, báo cáo, hóa đơn) — Claude đọc trực tiếp được",
+            correct: true },
+          { en: "PDFs are required by all browsers",
+            vi: "Trình duyệt nào cũng yêu cầu PDF" },
+          { en: "Only PDFs from 1998 are supported",
+            vi: "Chỉ hỗ trợ PDF năm 1998" }
+        ],
+        explanation: {
+          en: "Native PDF understanding cuts pre-processing and lets Claude reason over text + layout + images together.",
+          vi: "Hiểu PDF gốc giúp giảm tiền xử lý và cho Claude lập luận cả text + layout + ảnh cùng lúc."
+        }
+      },
+      { module: "features",
+        q: { en: "What do citations help users do?",
+             vi: "Citations giúp người dùng điều gì?" },
+        options: [
+          { en: "Hide all sources",
+            vi: "Ẩn toàn bộ nguồn" },
+          { en: "Trust and verify Claude's answers by linking back to specific source passages",
+            vi: "Tin và kiểm chứng câu trả lời Claude bằng cách dẫn về đoạn nguồn cụ thể",
+            correct: true },
+          { en: "Auto-pay invoices",
+            vi: "Tự thanh toán hóa đơn" },
+          { en: "Replace the entire UI",
+            vi: "Thay thế toàn bộ UI" }
+        ],
+        explanation: {
+          en: "Citations make grounded outputs auditable — important in legal, finance, healthcare, etc.",
+          vi: "Citation giúp kết quả có dẫn nguồn có thể kiểm tra — quan trọng trong luật, tài chính, y tế…"
         }
       },
       { module: "features",
@@ -422,6 +1027,65 @@ NEW_BLOCK = r'''
           vi: "Caching hữu ích khi system prompt lớn hoặc tài liệu lặp lại tạo prefix ổn định."
         }
       },
+      { module: "features",
+        q: { en: "What is a key rule of effective prompt caching?",
+             vi: "Một quy tắc quan trọng để caching hiệu quả là gì?" },
+        options: [
+          { en: "Cache only random text changes",
+            vi: "Chỉ cache phần text thay đổi ngẫu nhiên" },
+          { en: "Place static / unchanging content at the START so the prefix can be reused",
+            vi: "Đặt nội dung tĩnh / không đổi ở ĐẦU để prefix có thể tái sử dụng",
+            correct: true },
+          { en: "Disable system prompts to enable caching",
+            vi: "Tắt system prompt để bật caching" },
+          { en: "Use only one user character at a time",
+            vi: "Mỗi lần chỉ dùng 1 ký tự user" }
+        ],
+        explanation: {
+          en: "Caching benefits hinge on a stable prefix — keep dynamic content after the cached blocks.",
+          vi: "Lợi ích caching phụ thuộc prefix ổn định — phần động đặt sau khối được cache."
+        }
+      },
+      { module: "features",
+        q: { en: "What is the Files API used for?",
+             vi: "Files API dùng để làm gì?" },
+        options: [
+          { en: "Streaming live audio",
+            vi: "Streaming audio trực tiếp" },
+          { en: "Uploading and referring to files (e.g. for code execution / document workflows) by ID across requests",
+            vi: "Upload và tham chiếu file (ví dụ cho code execution / luồng tài liệu) theo ID giữa các request",
+            correct: true },
+          { en: "Encrypting your DNS",
+            vi: "Mã hóa DNS" },
+          { en: "Replacing webhooks",
+            vi: "Thay thế webhook" }
+        ],
+        explanation: {
+          en: "Files API lets you persist resources Claude (and tools like code execution) can reference across calls.",
+          vi: "Files API cho phép lưu tài nguyên để Claude (và tool như code execution) tham chiếu giữa các lần gọi."
+        }
+      },
+      { module: "features",
+        q: { en: "What does Claude's code-execution feature do (when enabled)?",
+             vi: "Tính năng code-execution của Claude (khi bật) làm gì?" },
+        options: [
+          { en: "Runs your local kernel directly",
+            vi: "Chạy trực tiếp kernel máy bạn" },
+          { en: "Runs sandboxed code (e.g. Python) on Anthropic's side so Claude can compute, plot, and analyze data",
+            vi: "Chạy code sandbox (ví dụ Python) phía Anthropic để Claude tính toán, vẽ biểu đồ, phân tích dữ liệu",
+            correct: true },
+          { en: "Disables JSON output",
+            vi: "Tắt đầu ra JSON" },
+          { en: "Replaces the API server",
+            vi: "Thay thế API server" }
+        ],
+        explanation: {
+          en: "Code execution + Files API let Claude move from \"talking about\" data to actually computing answers.",
+          vi: "Code execution + Files API cho Claude từ \"nói về\" dữ liệu chuyển sang thực sự tính toán đáp án."
+        }
+      },
+
+      // ─── MCP ─────────────────────────────────────────────────────────
       { module: "mcp",
         q: { en: "What problem does the Model Context Protocol (MCP) address?",
              vi: "Model Context Protocol (MCP) giải quyết vấn đề gì?" },
@@ -437,37 +1101,134 @@ NEW_BLOCK = r'''
             vi: "Cấm embedding" }
         ],
         explanation: {
-          en: "MCP helps build interoperable integrations—think composable tool servers and consistent client patterns.",
+          en: "MCP helps build interoperable integrations — composable tool servers and consistent client patterns.",
           vi: "MCP giúp tích hợp tương tác — server tool có thể kết hợp và pattern client nhất quán."
         }
       },
       { module: "mcp",
-        q: { en: "Besides tools, what else can MCP servers expose?",
-             vi: "Ngoài tools, MCP server còn có thể expose gì?" },
+        q: { en: "Who is the MCP \"client\" typically?",
+             vi: "MCP \"client\" thường là ai?" },
         options: [
-          { en: "Nothing else—tools only",
-            vi: "Không gì khác — chỉ tools" },
-          { en: "Resources (like readable content) and prompts that clients can discover and use",
-            vi: "Resource (nội dung đọc được) và prompt mà client có thể khám phá và dùng",
+          { en: "Always a printer",
+            vi: "Luôn là máy in" },
+          { en: "The host application (e.g. an IDE, chat app, agent) that connects to MCP servers and forwards capabilities to the model",
+            vi: "App host (IDE, chat app, agent) kết nối tới các MCP server và chuyển khả năng đó cho model",
             correct: true },
-          { en: "Physical hardware warranties",
-            vi: "Bảo hành phần cứng vật lý" },
-          { en: "Company payroll databases without auth",
-            vi: "DB lương công ty không cần auth" }
+          { en: "Only Claude itself",
+            vi: "Chỉ là chính Claude" },
+          { en: "The DNS server",
+            vi: "Server DNS" }
         ],
         explanation: {
-          en: "MCP's ecosystem includes tools, resources, and prompts—making integrations more discoverable.",
-          vi: "Hệ sinh thái MCP gồm tools, resources và prompts — giúp tích hợp dễ khám phá hơn."
+          en: "MCP clients live inside host apps; they speak MCP to servers and pass the model the available tools/resources/prompts.",
+          vi: "MCP client nằm trong app host; nói MCP với server và đưa cho model các tool/resource/prompt có sẵn."
         }
       },
+      { module: "mcp",
+        q: { en: "What does an MCP server expose?",
+             vi: "Một MCP server expose những gì?" },
+        options: [
+          { en: "Only frontend CSS",
+            vi: "Chỉ CSS frontend" },
+          { en: "Tools, resources, and prompts that clients can discover and use",
+            vi: "Tools, resources và prompts mà client có thể khám phá và dùng",
+            correct: true },
+          { en: "Only image files",
+            vi: "Chỉ file ảnh" },
+          { en: "Random hardware drivers",
+            vi: "Driver phần cứng ngẫu nhiên" }
+        ],
+        explanation: {
+          en: "Servers package capabilities into three primitives so any compliant client can use them.",
+          vi: "Server đóng gói khả năng vào ba primitive để mọi client tuân chuẩn có thể dùng."
+        }
+      },
+      { module: "mcp",
+        q: { en: "How are MCP tools different from MCP resources (high level)?",
+             vi: "MCP tools khác MCP resources thế nào (mức tổng quát)?" },
+        options: [
+          { en: "Tools are images and resources are videos",
+            vi: "Tool là ảnh, resource là video" },
+          { en: "Tools perform actions (function-like calls); resources expose readable, addressable content (e.g. a file or record)",
+            vi: "Tool thực hiện hành động (giống function call); resource expose nội dung đọc được, có địa chỉ (file hoặc record)",
+            correct: true },
+          { en: "Tools are paid, resources are free",
+            vi: "Tool trả phí, resource miễn phí" },
+          { en: "There is no difference",
+            vi: "Không có khác biệt" }
+        ],
+        explanation: {
+          en: "Roughly: tools = verbs, resources = nouns; prompts = reusable templates clients can offer the user/model.",
+          vi: "Khái quát: tool = động từ, resource = danh từ; prompts = mẫu prompt tái sử dụng client có thể cung cấp."
+        }
+      },
+      { module: "mcp",
+        q: { en: "What are MCP \"prompts\" intended for?",
+             vi: "MCP \"prompts\" dùng để làm gì?" },
+        options: [
+          { en: "Replacing all chat input forever",
+            vi: "Thay thế vĩnh viễn mọi ô chat" },
+          { en: "Reusable, parameterized prompt templates clients can surface to users / models for common workflows",
+            vi: "Mẫu prompt có tham số, dùng lại được, client có thể hiển thị cho user / model cho các workflow phổ biến",
+            correct: true },
+          { en: "Storing user passwords",
+            vi: "Lưu mật khẩu user" },
+          { en: "Disabling streaming",
+            vi: "Tắt streaming" }
+        ],
+        explanation: {
+          en: "Prompts let server authors ship best-practice prompt patterns alongside their tools and resources.",
+          vi: "Prompts giúp tác giả server đóng gói pattern prompt thực hành tốt cùng tool và resource của họ."
+        }
+      },
+      { module: "mcp",
+        q: { en: "What is the MCP server inspector useful for?",
+             vi: "MCP server inspector dùng để làm gì?" },
+        options: [
+          { en: "Checking your DNS records",
+            vi: "Kiểm tra bản ghi DNS" },
+          { en: "Locally testing and exploring the tools, resources, and prompts your MCP server exposes",
+            vi: "Test và khám phá tại chỗ các tool, resource, prompt mà MCP server của bạn expose",
+            correct: true },
+          { en: "Auto-deploying servers to production",
+            vi: "Tự deploy server lên production" },
+          { en: "Sending invoices",
+            vi: "Gửi hóa đơn" }
+        ],
+        explanation: {
+          en: "The inspector is invaluable during development — verify schemas, behavior and edge cases before integrating.",
+          vi: "Inspector cực kỳ hữu ích khi phát triển — kiểm tra schema, hành vi và edge case trước khi tích hợp."
+        }
+      },
+      { module: "mcp",
+        q: { en: "Why is MCP good for production agent ecosystems?",
+             vi: "Vì sao MCP phù hợp với hệ sinh thái agent production?" },
+        options: [
+          { en: "It locks you to a single vendor",
+            vi: "Khóa bạn vào một nhà cung cấp duy nhất" },
+          { en: "It provides a vendor-neutral, composable way to plug capabilities into any compatible host or model",
+            vi: "Cung cấp cách trung lập với vendor, có thể kết hợp, để cắm khả năng vào host/model tương thích",
+            correct: true },
+          { en: "It is required by every web browser",
+            vi: "Bắt buộc với mọi trình duyệt" },
+          { en: "It only works in-house at Anthropic",
+            vi: "Chỉ chạy nội bộ Anthropic" }
+        ],
+        explanation: {
+          en: "Composable, standardized integrations make swapping models or hosts safer and reduce one-off glue code.",
+          vi: "Tích hợp chuẩn hóa, kết hợp được giúp đổi model/host an toàn hơn và giảm code keo dán."
+        }
+      },
+
+      // ─── Anthropic apps (Claude Code & Computer Use) ─────────────────
       { module: "apps",
         q: { en: "What is Claude Code aimed at?",
              vi: "Claude Code hướng tới điều gì?" },
         options: [
           { en: "Replacing Windows kernel development only",
             vi: "Chỉ thay thế phát triển kernel Windows" },
-          { en: "Developer workflows like autonomous coding assistance integrated into development environments",
-            vi: "Luồng dev như trợ lý lập trình tích hợp môi trường phát triển",
+          { en: "AI-assisted developer workflows: editing code, running tools, and integrating with your environment",
+            vi: "Luồng làm việc dev có AI hỗ trợ: sửa code, chạy tool và tích hợp môi trường của bạn",
             correct: true },
           { en: "Running COBOL mainframes only",
             vi: "Chỉ chạy mainframe COBOL" },
@@ -475,8 +1236,27 @@ NEW_BLOCK = r'''
             vi: "Thiết kế brochure in ấn" }
         ],
         explanation: {
-          en: "Claude Code focuses on AI-assisted software engineering tasks with tooling integrations.",
-          vi: "Claude Code tập trung tác vụ kỹ sư phần mềm có AI trợ giúp và tích hợp công cụ."
+          en: "Claude Code uses Claude's tool-using abilities to read/edit code, run commands, and assist development.",
+          vi: "Claude Code dùng khả năng tool-use của Claude để đọc/sửa code, chạy lệnh và hỗ trợ phát triển."
+        }
+      },
+      { module: "apps",
+        q: { en: "How can MCP servers enhance Claude Code?",
+             vi: "MCP server tăng cường Claude Code thế nào?" },
+        options: [
+          { en: "By disabling all editing",
+            vi: "Bằng cách tắt mọi việc sửa code" },
+          { en: "By adding new tools, resources, and prompts (e.g. company-internal APIs, knowledge bases) it can use",
+            vi: "Bằng cách thêm tool, resource, prompt mới (API nội bộ, knowledge base…) cho nó dùng",
+            correct: true },
+          { en: "By replacing the keyboard",
+            vi: "Thay thế bàn phím" },
+          { en: "By formatting your hard drive",
+            vi: "Format ổ cứng" }
+        ],
+        explanation: {
+          en: "Connecting MCP servers extends Claude Code with custom domain-specific powers — without forking the app.",
+          vi: "Kết nối MCP server mở rộng Claude Code bằng năng lực chuyên ngành — không cần fork app."
         }
       },
       { module: "apps",
@@ -494,8 +1274,48 @@ NEW_BLOCK = r'''
             vi: "Chỉ biên dịch batch offline" }
         ],
         explanation: {
-          en: "Computer Use targets GUI automation scenarios—powerful but requiring careful safety constraints.",
+          en: "Computer Use targets GUI automation scenarios — powerful but requiring careful safety constraints.",
           vi: "Computer Use nhắm tự động hóa GUI — mạnh nhưng cần ràng buộc an toàn cẩn thận."
+        }
+      },
+      { module: "apps",
+        q: { en: "What is a key safety consideration for Computer Use?",
+             vi: "Cân nhắc an toàn quan trọng nhất với Computer Use là gì?" },
+        options: [
+          { en: "It cannot make any mistakes by definition",
+            vi: "Theo định nghĩa, nó không thể sai" },
+          { en: "It can take real actions on a system, so sandboxing, scoping permissions, and human oversight matter",
+            vi: "Nó có thể thực hiện hành động thật trên hệ thống, nên sandbox, giới hạn quyền và giám sát con người là quan trọng",
+            correct: true },
+          { en: "It only runs on Sundays",
+            vi: "Chỉ chạy Chủ nhật" },
+          { en: "It requires no auth at all",
+            vi: "Hoàn toàn không cần xác thực" }
+        ],
+        explanation: {
+          en: "Treat Computer Use like an autonomous user: limit blast radius and require oversight on sensitive actions.",
+          vi: "Xem Computer Use như một user tự động: giới hạn phạm vi tác động và yêu cầu giám sát với hành động nhạy cảm."
+        }
+      },
+
+      // ─── Agents and workflows ────────────────────────────────────────
+      { module: "agents",
+        q: { en: "What's the difference between a workflow and an agent?",
+             vi: "Workflow và agent khác nhau ở điểm gì?" },
+        options: [
+          { en: "Workflows are random; agents are deterministic",
+            vi: "Workflow ngẫu nhiên; agent xác định" },
+          { en: "Workflows: pre-defined steps (chain/route/parallelize). Agents: model decides next steps dynamically using tools",
+            vi: "Workflow: bước cố định trước (chain/route/parallel). Agent: model tự quyết bước tiếp theo bằng tool",
+            correct: true },
+          { en: "There is no difference",
+            vi: "Không khác gì" },
+          { en: "Agents must run on mainframes",
+            vi: "Agent phải chạy trên mainframe" }
+        ],
+        explanation: {
+          en: "Workflows favor predictability; agents favor flexibility — many real systems combine both.",
+          vi: "Workflow ưu tiên tính dự đoán; agent ưu tiên linh hoạt — nhiều hệ thống thật kết hợp cả hai."
         }
       },
       { module: "agents",
@@ -518,6 +1338,25 @@ NEW_BLOCK = r'''
         }
       },
       { module: "agents",
+        q: { en: "What is chaining?",
+             vi: "Chaining là gì?" },
+        options: [
+          { en: "Disabling memory entirely",
+            vi: "Tắt hoàn toàn bộ nhớ" },
+          { en: "Sequential steps where each step's output feeds into the next, often with smaller, focused prompts",
+            vi: "Các bước tuần tự, đầu ra bước trước làm đầu vào bước sau, thường với prompt nhỏ và tập trung",
+            correct: true },
+          { en: "Replacing all functions with one giant prompt",
+            vi: "Thay mọi hàm bằng một prompt khổng lồ" },
+          { en: "A type of cryptocurrency",
+            vi: "Một loại tiền mã hóa" }
+        ],
+        explanation: {
+          en: "Chaining decomposes complex tasks into stages — easier to debug and evaluate than one mega-prompt.",
+          vi: "Chaining chia tác vụ phức tạp thành các bước — dễ debug và eval hơn một mega-prompt."
+        }
+      },
+      { module: "agents",
         q: { en: "What is routing in agent workflows?",
              vi: "Routing trong workflow agent là gì?" },
         options: [
@@ -536,7 +1375,84 @@ NEW_BLOCK = r'''
           vi: "Routing cải thiện chất lượng/chi phí bằng cách gửi tác vụ dễ tới model nhỏ, tác vụ khó tới model mạnh hơn."
         }
       },
+      { module: "agents",
+        q: { en: "What core loop does an agent typically follow?",
+             vi: "Vòng lặp cốt lõi của một agent thường là?" },
+        options: [
+          { en: "Talk → end immediately",
+            vi: "Nói → kết thúc ngay" },
+          { en: "Observe → think → use tools → observe again, until the goal is met or a stop condition fires",
+            vi: "Quan sát → suy nghĩ → dùng tool → quan sát tiếp, đến khi đạt mục tiêu hoặc gặp điều kiện dừng",
+            correct: true },
+          { en: "Train a new model on every step",
+            vi: "Huấn luyện model mới mỗi bước" },
+          { en: "Reformat the disk on every step",
+            vi: "Format đĩa mỗi bước" }
+        ],
+        explanation: {
+          en: "Agents iteratively reason and act with tools, adapting to feedback at each step.",
+          vi: "Agent lặp lại lập luận và hành động bằng tool, thích ứng theo phản hồi mỗi bước."
+        }
+      },
+      { module: "agents",
+        q: { en: "Why is environment inspection important for agents?",
+             vi: "Vì sao agent cần \"quan sát môi trường\" (environment inspection)?" },
+        options: [
+          { en: "So they can hallucinate freely",
+            vi: "Để hallucinate tự do" },
+          { en: "Reading real state (files, APIs, screens) grounds decisions in facts instead of assumptions",
+            vi: "Đọc trạng thái thực (file, API, màn hình) giúp quyết định dựa trên thực tế thay vì giả định",
+            correct: true },
+          { en: "It always slows agents to a crawl",
+            vi: "Luôn làm agent chậm như rùa" },
+          { en: "It is forbidden by the API",
+            vi: "Bị API cấm" }
+        ],
+        explanation: {
+          en: "Grounding actions in actual environment state is essential for reliability and safety.",
+          vi: "Bám vào trạng thái thực của môi trường là điều kiện thiết yếu để hành động đáng tin và an toàn."
+        }
+      },
+      { module: "agents",
+        q: { en: "When should you usually prefer a fixed workflow over an open-ended agent?",
+             vi: "Khi nào nên ưu tiên workflow cố định thay vì agent tự do?" },
+        options: [
+          { en: "When the steps are well-known and predictability / cost / safety matter most",
+            vi: "Khi các bước đã rõ và tính dự đoán / chi phí / an toàn là ưu tiên hàng đầu",
+            correct: true },
+          { en: "Always — agents are never useful",
+            vi: "Luôn luôn — agent không bao giờ hữu ích" },
+          { en: "When you want chaos",
+            vi: "Khi bạn muốn hỗn loạn" },
+          { en: "When you want maximum surprise",
+            vi: "Khi muốn bất ngờ tối đa" }
+        ],
+        explanation: {
+          en: "Fixed workflows are simpler to test and maintain. Use agents where flexibility is required.",
+          vi: "Workflow cố định dễ test và bảo trì. Dùng agent khi cần linh hoạt thực sự."
+        }
+      },
+      { module: "agents",
+        q: { en: "What is a healthy way to limit an agent's blast radius in production?",
+             vi: "Cách lành mạnh để giới hạn \"bán kính tác động\" của agent trong production?" },
+        options: [
+          { en: "Give it root access to all systems and your bank account",
+            vi: "Cho quyền root mọi hệ thống và tài khoản ngân hàng" },
+          { en: "Scoped permissions, allowlists for tools/destinations, audit logs, and human approval for risky actions",
+            vi: "Phân quyền có giới hạn, allowlist cho tool/đích đến, log kiểm toán và phê duyệt người dùng cho hành động rủi ro",
+            correct: true },
+          { en: "Hide all errors from the user",
+            vi: "Che giấu mọi lỗi với user" },
+          { en: "Disable logging entirely",
+            vi: "Tắt hoàn toàn log" }
+        ],
+        explanation: {
+          en: "Treat agents like junior staff with elevated tooling — least-privilege, auditing, and human-in-the-loop on risk.",
+          vi: "Đối xử với agent như nhân viên junior có công cụ mạnh — đặc quyền tối thiểu, audit và có con người duyệt khi rủi ro."
+        }
+      },
 
+      // ─── Bonus · Data and privacy ───────────────────────────────────
       { module: "privacy",
         q: { en: "What is Skilljar in this context?",
              vi: "Trong bối cảnh này, Skilljar là gì?" },
@@ -654,13 +1570,14 @@ NEW_BLOCK = r'''
     ];
 '''
 
-def main():
+
+def main() -> None:
     text = HTML.read_text(encoding="utf-8")
     start = text.index("    const MODULES = {")
     end = text.index("\n    const quizEl", start)
     text = text[:start] + NEW_BLOCK + text[end:]
     HTML.write_text(text, encoding="utf-8")
-    print(f"Updated {HTML} ({start}-{end} replaced)")
+    print(f"Updated {HTML} ({start}-{end} replaced; new size = {len(text)} bytes)")
 
 
 if __name__ == "__main__":
