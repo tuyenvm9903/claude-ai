@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Claude 101 — Quiz (EN / VI)</title>
+  <title>Anthropic Academy · Course quizzes</title>
   <style>
     :root {
       --bg: #0f1115;
@@ -11,13 +11,11 @@
       --card-hover: #1f232c;
       --text: #e8e6e3;
       --muted: #9aa0a6;
-      --accent: #d97757;
-      --accent-soft: #d9775722;
+      --accent101: #d97757;
+      --accent101-soft: #d9775722;
+      --accent-api: #8b5cf6;
+      --accent-api-soft: #8b5cf622;
       --border: #2a2f3a;
-      --good: #4ade80;
-      --good-soft: #4ade8022;
-      --bad: #f87171;
-      --bad-soft: #f8717122;
       --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
     }
 
@@ -35,7 +33,7 @@
     }
 
     .container {
-      max-width: 880px;
+      max-width: 920px;
       margin: 0 auto;
       padding: 48px 24px 96px;
     }
@@ -46,7 +44,7 @@
       justify-content: space-between;
       gap: 24px;
       flex-wrap: wrap;
-      margin-bottom: 40px;
+      margin-bottom: 36px;
     }
 
     .brand { display: flex; align-items: center; gap: 14px; }
@@ -54,7 +52,7 @@
     .brand-logo {
       width: 44px; height: 44px;
       border-radius: 12px;
-      background: linear-gradient(135deg, var(--accent), #b35c3f);
+      background: linear-gradient(135deg, var(--accent101), var(--accent-api));
       display: grid; place-items: center;
       font-weight: 700; color: #fff;
       box-shadow: var(--shadow);
@@ -86,13 +84,13 @@
     }
 
     .lang-switch button.active {
-      background: var(--accent);
+      background: var(--accent101);
       color: #fff;
-      box-shadow: 0 4px 12px var(--accent-soft);
+      box-shadow: 0 4px 12px var(--accent101-soft);
     }
 
     .title-block h2 {
-      font-size: 36px;
+      font-size: 34px;
       line-height: 1.2;
       margin: 0 0 12px;
       font-weight: 700;
@@ -105,267 +103,156 @@
       max-width: 720px;
     }
 
-    .scoreboard {
+    .course-tabs {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
       flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 28px;
+      padding: 8px;
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 16px 20px;
-      margin-bottom: 28px;
       box-shadow: var(--shadow);
-      position: sticky;
-      top: 16px;
-      z-index: 10;
-      backdrop-filter: blur(6px);
     }
 
-    .scoreboard .score {
-      font-size: 15px;
-      color: var(--muted);
-    }
-
-    .scoreboard .score b {
-      color: var(--text);
-      font-size: 17px;
-    }
-
-    .progress {
+    .course-tabs a {
       flex: 1 1 200px;
-      height: 8px;
-      background: #2a2f3a;
-      border-radius: 999px;
-      overflow: hidden;
-      min-width: 160px;
-    }
-
-    .progress > div {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, var(--accent), #f0a07a);
-      transition: width 0.35s ease;
-    }
-
-    .btn {
-      appearance: none;
-      border: 1px solid var(--border);
-      background: var(--card-hover);
-      color: var(--text);
-      padding: 8px 14px;
-      font-size: 14px;
-      font-weight: 600;
-      border-radius: 10px;
-      cursor: pointer;
+      text-align: center;
+      padding: 14px 18px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--muted);
+      border: 2px solid transparent;
       transition: all 0.15s ease;
     }
 
-    .btn:hover { border-color: var(--accent); color: var(--accent); }
-
-    .btn.primary {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
+    .course-tabs a:hover {
+      background: var(--card-hover);
+      color: var(--text);
     }
-    .btn.primary:hover { background: #c46847; border-color: #c46847; color: #fff; }
 
-    .quiz {
+    .course-tabs a.tab101 {
+      border-color: var(--accent101-soft);
+    }
+    .course-tabs a.tab101:hover,
+    .course-tabs a.tab101:focus-visible {
+      border-color: var(--accent101);
+      color: var(--accent101);
+    }
+
+    .course-tabs a.tab-api {
+      border-color: var(--accent-api-soft);
+    }
+    .course-tabs a.tab-api:hover,
+    .course-tabs a.tab-api:focus-visible {
+      border-color: var(--accent-api);
+      color: var(--accent-api);
+    }
+
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .course-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 26px;
+      box-shadow: var(--shadow);
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 14px;
+      transition: border-color 0.15s ease;
     }
 
-    .module-head {
-      margin: 18px 4px 4px;
-      padding: 6px 0 0;
-      border-top: 1px solid var(--border);
+    .course-card:hover {
+      border-color: #3d4555;
     }
-    .module-head:first-child {
-      border-top: 0;
-      margin-top: 0;
+
+    .course-card h3 {
+      margin: 0;
+      font-size: 20px;
     }
-    .module-head .eyebrow {
+
+    .course-card .tag {
       display: inline-block;
       font-size: 11px;
       font-weight: 700;
-      letter-spacing: 1.2px;
+      letter-spacing: 1px;
       text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 4px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      width: fit-content;
     }
-    .module-head h3 {
+
+    .course-card.c101 .tag {
+      background: var(--accent101-soft);
+      color: var(--accent101);
+    }
+
+    .course-card.capi .tag {
+      background: var(--accent-api-soft);
+      color: var(--accent-api);
+    }
+
+    .course-card p {
       margin: 0;
-      font-size: 18px;
-      color: var(--text);
+      font-size: 15px;
+      color: var(--muted);
+      flex: 1;
     }
 
-    .qcard {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 22px 22px 20px;
-      box-shadow: var(--shadow);
-    }
-
-    .qhead {
-      display: flex;
-      gap: 14px;
-      align-items: flex-start;
-      margin-bottom: 14px;
-    }
-
-    .qnum {
-      flex-shrink: 0;
-      width: 32px; height: 32px;
-      border-radius: 10px;
-      background: var(--accent-soft);
-      color: var(--accent);
-      display: grid; place-items: center;
+    .course-card .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 18px;
+      border-radius: 12px;
       font-weight: 700;
       font-size: 14px;
-    }
-
-    .qtext {
-      font-weight: 600;
-      font-size: 16.5px;
-      color: var(--text);
-    }
-
-    .options {
-      display: grid;
-      gap: 10px;
-    }
-
-    .option {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 12px 14px;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      background: var(--card-hover);
-      cursor: pointer;
-      transition: all 0.15s ease;
-      font-size: 15px;
-      color: var(--text);
-      user-select: none;
-    }
-
-    .option:hover {
-      border-color: var(--accent);
-      background: #232831;
-    }
-
-    .option .opt-letter {
-      width: 24px; height: 24px;
-      flex-shrink: 0;
-      border-radius: 6px;
-      background: #2a2f3a;
-      color: var(--muted);
-      display: grid; place-items: center;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .qcard.answered .option { cursor: default; }
-    .qcard.answered .option:hover {
-      border-color: var(--border);
-      background: var(--card-hover);
-    }
-
-    .option.correct {
-      border-color: var(--good);
-      background: var(--good-soft);
-    }
-    .option.correct .opt-letter {
-      background: var(--good);
-      color: #0a0a0a;
-    }
-
-    .option.wrong {
-      border-color: var(--bad);
-      background: var(--bad-soft);
-    }
-    .option.wrong .opt-letter {
-      background: var(--bad);
-      color: #0a0a0a;
-    }
-
-    .qcard.answered .option.reveal {
-      border-color: var(--good);
-      background: var(--good-soft);
-    }
-    .qcard.answered .option.reveal .opt-letter {
-      background: var(--good);
-      color: #0a0a0a;
-    }
-
-    .explanation {
-      margin-top: 14px;
-      padding: 12px 14px;
-      border-radius: 10px;
-      background: #11141a;
-      border: 1px dashed var(--border);
-      font-size: 14.5px;
-      color: var(--muted);
-      display: none;
-    }
-    .explanation a {
-      color: var(--accent);
       text-decoration: none;
-      border-bottom: 1px dashed var(--accent);
+      color: #fff;
+      margin-top: 4px;
     }
-    .qcard.answered .explanation { display: block; }
 
-    .explanation .verdict {
-      display: inline-block;
-      font-weight: 700;
-      margin-right: 8px;
+    .course-card.c101 .cta {
+      background: linear-gradient(135deg, var(--accent101), #b35c3f);
     }
-    .explanation .verdict.good { color: var(--good); }
-    .explanation .verdict.bad { color: var(--bad); }
 
-    .result-banner {
-      display: none;
-      margin: 28px 0 0;
-      padding: 22px;
-      border-radius: 16px;
-      background: linear-gradient(135deg, #1d2230, #181b22);
-      border: 1px solid var(--border);
-      text-align: center;
-      box-shadow: var(--shadow);
+    .course-card.capi .cta {
+      background: linear-gradient(135deg, var(--accent-api), #6366f1);
     }
-    .result-banner.show { display: block; }
 
-    .result-banner h3 {
-      margin: 0 0 6px;
-      font-size: 22px;
+    .course-card .src {
+      font-size: 12px;
+      color: var(--muted);
     }
-    .result-banner p { margin: 0 0 14px; color: var(--muted); }
+
+    .course-card .src a {
+      color: var(--accent-api);
+      text-decoration: none;
+      border-bottom: 1px dashed currentColor;
+    }
 
     footer {
       text-align: center;
       color: var(--muted);
       font-size: 13px;
-      margin-top: 32px;
-    }
-
-    footer a {
-      color: var(--accent);
-      text-decoration: none;
+      margin-top: 48px;
     }
 
     [data-en], [data-vi] { display: none; }
     body[data-lang="en"] [data-en] { display: revert; }
     body[data-lang="vi"] [data-vi] { display: revert; }
 
-    @media (max-width: 600px) {
-      .title-block h2 { font-size: 28px; }
-      .qcard { padding: 18px; }
-      .scoreboard { position: static; }
-    }
+    .course-tabs a span[data-en],
+    .course-tabs a span[data-vi] { display: none; }
+    body[data-lang="en"] .course-tabs a span[data-en] { display: inline; }
+    body[data-lang="vi"] .course-tabs a span[data-vi] { display: inline; }
   </style>
 </head>
 <body data-lang="en">
@@ -376,8 +263,8 @@
         <div>
           <h1>Anthropic Academy</h1>
           <p>
-            <span data-en>Claude 101 · Interactive quiz</span>
-            <span data-vi>Claude 101 · Bài trắc nghiệm</span>
+            <span data-en>Bilingual practice quizzes (EN / VI)</span>
+            <span data-vi>Bài trắc nghiệm song ngữ (Anh / Việt)</span>
           </p>
         </div>
       </div>
@@ -390,813 +277,107 @@
 
     <div class="title-block">
       <h2>
-        <span data-en>Claude 101 Quiz</span>
-        <span data-vi>Trắc nghiệm Claude 101</span>
+        <span data-en>Choose a course</span>
+        <span data-vi>Chọn khóa học</span>
       </h2>
       <p class="lead">
         <span data-en>
-          A full quiz covering every module of the Claude 101 course — from
-          meeting Claude to projects, artifacts, skills, connected tools,
-          enterprise search, research mode, and the certificate. Click an
-          option to check your answer.
+          Pick a tab or card below. Each page is an interactive multiple-choice
+          quiz with explanations — aligned with the official Skilljar outlines.
         </span>
         <span data-vi>
-          Bài trắc nghiệm bao quát toàn bộ các module của Claude 101 — từ làm
-          quen với Claude đến Projects, Artifacts, Skills, kết nối công cụ,
-          Enterprise Search, Research mode và phần chứng chỉ. Bấm vào một lựa
-          chọn để kiểm tra đáp án.
+          Chọn tab hoặc thẻ bên dưới. Mỗi trang là bài trắc nghiệm tương tác có
+          giải thích — bám sát chương trình Skilljar chính thức.
         </span>
       </p>
     </div>
 
-    <div class="scoreboard">
-      <div class="score">
-        <span data-en>Score:</span>
-        <span data-vi>Điểm:</span>
-        <b id="score">0</b> / <b id="total">0</b>
-        &nbsp;·&nbsp;
-        <span data-en>Answered:</span>
-        <span data-vi>Đã trả lời:</span>
-        <b id="answered">0</b> / <b id="total2">0</b>
-      </div>
-      <div class="progress" aria-hidden="true"><div id="progress-bar"></div></div>
-      <button class="btn" id="reset-btn" type="button">
-        <span data-en>Reset</span>
-        <span data-vi>Làm lại</span>
-      </button>
-    </div>
+    <nav class="course-tabs" aria-label="Courses">
+      <a class="tab101" href="courses/claude-101/index.html">
+        <span data-en>Claude 101</span>
+        <span data-vi>Claude 101</span>
+      </a>
+      <a class="tab-api" href="courses/claude-api/index.html">
+        <span data-en>Building with the Claude API</span>
+        <span data-vi>Xây dựng với Claude API</span>
+      </a>
+    </nav>
 
-    <div class="quiz" id="quiz"></div>
+    <div class="course-grid">
+      <article class="course-card c101">
+        <span class="tag">
+          <span data-en>Beginner-friendly</span>
+          <span data-vi>Cho người mới</span>
+        </span>
+        <h3>
+          <span data-en>Claude 101</span>
+          <span data-vi>Claude 101</span>
+        </h3>
+        <p>
+          <span data-en>
+            Everyday Claude usage: desktop modes, Projects, Artifacts, Skills,
+            connectors, Enterprise Search, Research mode, certificate — plus
+            Skilljar privacy FAQ.
+          </span>
+          <span data-vi>
+            Dùng Claude hằng ngày: desktop, Projects, Artifacts, Skills, kết nối,
+            Enterprise Search, Research mode, chứng chỉ — kèm FAQ Skilljar.
+          </span>
+        </p>
+        <p class="src">
+          <span data-en>Source:</span>
+          <span data-vi>Nguồn:</span>
+          <a href="https://anthropic.skilljar.com/claude-101" target="_blank" rel="noopener">anthropic.skilljar.com/claude-101</a>
+        </p>
+        <a class="cta" href="courses/claude-101/index.html">
+          <span data-en>Open quiz →</span>
+          <span data-vi>Vào bài quiz →</span>
+        </a>
+      </article>
 
-    <div class="result-banner" id="result-banner">
-      <h3 id="result-title"></h3>
-      <p id="result-desc"></p>
-      <button class="btn primary" id="result-reset" type="button">
-        <span data-en>Try again</span>
-        <span data-vi>Làm lại</span>
-      </button>
+      <article class="course-card capi">
+        <span class="tag">
+          <span data-en>Developers</span>
+          <span data-vi>Lập trình viên</span>
+        </span>
+        <h3>
+          <span data-en>Building with the Claude API</span>
+          <span data-vi>Xây dựng với Claude API</span>
+        </h3>
+        <p>
+          <span data-en>
+            API auth, Messages API, streaming & structured output, prompt evals,
+            engineering patterns, tool use, RAG, multimodal & caching, MCP,
+            Claude Code, agents & workflows — plus Skilljar privacy FAQ.
+          </span>
+          <span data-vi>
+            Xác thực API, Messages API, streaming & đầu ra có cấu trúc, eval,
+            prompt engineering, tool use, RAG, đa phương thức & caching, MCP,
+            Claude Code, agent/workflow — kèm FAQ Skilljar.
+          </span>
+        </p>
+        <p class="src">
+          <span data-en>Source:</span>
+          <span data-vi>Nguồn:</span>
+          <a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api" target="_blank" rel="noopener">anthropic.skilljar.com/…/claude-with-the-anthropic-api</a>
+        </p>
+        <a class="cta" href="courses/claude-api/index.html">
+          <span data-en>Open quiz →</span>
+          <span data-vi>Vào bài quiz →</span>
+        </a>
+      </article>
     </div>
 
     <footer>
       <p>
-        <span data-en>
-          Source:
-          <a href="https://anthropic.skilljar.com/claude-101/385349" target="_blank" rel="noopener">anthropic.skilljar.com/claude-101</a>
-          · © 2026 Anthropic PBC
-        </span>
-        <span data-vi>
-          Nguồn:
-          <a href="https://anthropic.skilljar.com/claude-101/385349" target="_blank" rel="noopener">anthropic.skilljar.com/claude-101</a>
-          · © 2026 Anthropic PBC
-        </span>
+        <span data-en>Study aids · Not affiliated with Anthropic · © course content Anthropic PBC</span>
+        <span data-vi>Tài liệu ôn luyện · Không liên kết Anthropic · © nội dung khóa Anthropic PBC</span>
       </p>
     </footer>
   </div>
 
   <script>
-    const MODULES = {
-      meet:    { en: "Module 1 · Meet Claude",                      vi: "Module 1 · Làm quen với Claude" },
-      organize:{ en: "Module 2 · Organizing your work and knowledge",vi: "Module 2 · Tổ chức công việc và kiến thức" },
-      reach:   { en: "Module 3 · Expanding Claude's reach",          vi: "Module 3 · Mở rộng phạm vi của Claude" },
-      together:{ en: "Module 4 · Putting it all together",           vi: "Module 4 · Tổng hợp tất cả" },
-      finish:  { en: "Module 5 · Conclusion & certificate",          vi: "Module 5 · Kết luận & chứng chỉ" },
-      privacy: { en: "Bonus · Data and privacy",                     vi: "Bổ sung · Dữ liệu và quyền riêng tư" }
-    };
-
-    const QUESTIONS = [
-      // ─── Module 1 · Meet Claude ─────────────────────────────────────
-      { module: "meet",
-        q: { en: "Who makes Claude?",
-             vi: "Ai là nhà phát triển của Claude?" },
-        options: [
-          { en: "OpenAI",   vi: "OpenAI" },
-          { en: "Google DeepMind", vi: "Google DeepMind" },
-          { en: "Anthropic", vi: "Anthropic", correct: true },
-          { en: "Meta AI",  vi: "Meta AI" }
-        ],
-        explanation: {
-          en: "Claude is an AI assistant created by Anthropic, designed to be helpful, harmless, and honest.",
-          vi: "Claude là một trợ lý AI do Anthropic tạo ra, được thiết kế để hữu ích, an toàn và trung thực."
-        }
-      },
-      { module: "meet",
-        q: { en: "What is the goal of Claude 101?",
-             vi: "Mục tiêu của Claude 101 là gì?" },
-        options: [
-          { en: "Teach you to train your own AI model from scratch",
-            vi: "Dạy bạn huấn luyện một mô hình AI từ đầu" },
-          { en: "Help you use Claude for everyday work tasks and understand its core features",
-            vi: "Giúp bạn dùng Claude cho công việc hằng ngày và hiểu các tính năng cốt lõi",
-            correct: true },
-          { en: "Certify you as an Anthropic employee",
-            vi: "Cấp chứng nhận bạn là nhân viên Anthropic" },
-          { en: "Sell you an enterprise license",
-            vi: "Bán cho bạn giấy phép doanh nghiệp" }
-        ],
-        explanation: {
-          en: "The course teaches you how to use Claude for everyday work, learn core features, and find resources for more advanced topics.",
-          vi: "Khóa học dạy bạn cách dùng Claude cho công việc hằng ngày, học các tính năng cốt lõi và tìm tài nguyên học nâng cao."
-        }
-      },
-      { module: "meet",
-        q: { en: "Which of these is the BEST way to phrase your first prompt to Claude?",
-             vi: "Cách nào TỐT NHẤT để viết prompt đầu tiên cho Claude?" },
-        options: [
-          { en: '"do the thing"',
-            vi: '"làm cái đó đi"' },
-          { en: "Describe the goal, audience, format, and any constraints clearly",
-            vi: "Mô tả rõ mục tiêu, đối tượng, định dạng và các ràng buộc",
-            correct: true },
-          { en: "Always ask in one or two words to save tokens",
-            vi: "Luôn hỏi bằng một, hai từ để tiết kiệm token" },
-          { en: "Use only emojis to keep it short",
-            vi: "Chỉ dùng emoji cho ngắn gọn" }
-        ],
-        explanation: {
-          en: "Better results come from being specific: describe the task, the audience, the desired format, and any constraints or examples.",
-          vi: "Kết quả tốt hơn đến từ việc cụ thể: mô tả công việc, đối tượng đọc, định dạng mong muốn, và các ràng buộc hoặc ví dụ."
-        }
-      },
-      { module: "meet",
-        q: { en: "Which technique is recommended for getting better results from Claude?",
-             vi: "Kỹ thuật nào được khuyên dùng để có kết quả tốt hơn từ Claude?" },
-        options: [
-          { en: "Avoid giving any context to keep the prompt clean",
-            vi: "Tránh cung cấp bối cảnh để prompt sạch" },
-          { en: "Provide context, examples, and iterate by refining your prompt",
-            vi: "Cung cấp bối cảnh, ví dụ, và tinh chỉnh prompt qua nhiều lần",
-            correct: true },
-          { en: "Always use the same prompt regardless of the task",
-            vi: "Luôn dùng cùng một prompt cho mọi công việc" },
-          { en: "Refuse to read Claude's response — just copy it",
-            vi: "Không đọc câu trả lời, chỉ copy là đủ" }
-        ],
-        explanation: {
-          en: "Good prompting is iterative: provide context, give examples, specify format, and refine based on the output.",
-          vi: "Viết prompt tốt là một quá trình lặp: cho bối cảnh, ví dụ, chỉ rõ định dạng, và tinh chỉnh dựa trên kết quả."
-        }
-      },
-      { module: "meet",
-        q: { en: "Which three modes does the Claude desktop app feature?",
-             vi: "Ứng dụng Claude desktop có ba chế độ nào?" },
-        options: [
-          { en: "Chat, Cowork, Code",
-            vi: "Chat, Cowork, Code", correct: true },
-          { en: "Read, Write, Translate",
-            vi: "Read, Write, Translate" },
-          { en: "Search, Email, Calendar",
-            vi: "Search, Email, Calendar" },
-          { en: "Voice, Vision, Memory",
-            vi: "Voice, Vision, Memory" }
-        ],
-        explanation: {
-          en: "The Claude desktop app provides three modes: Chat (conversation), Cowork (working alongside other apps), and Code (coding workflows).",
-          vi: "Ứng dụng Claude desktop có ba chế độ: Chat (trò chuyện), Cowork (làm việc cùng các ứng dụng khác) và Code (luồng làm việc lập trình)."
-        }
-      },
-      { module: "meet",
-        q: { en: "What does the Cowork mode in the Claude desktop app let you do?",
-             vi: "Chế độ Cowork trong Claude desktop cho phép bạn làm gì?" },
-        options: [
-          { en: "Replace your operating system entirely",
-            vi: "Thay thế hoàn toàn hệ điều hành" },
-          { en: "Have Claude work alongside your other apps to assist with tasks on your computer",
-            vi: "Để Claude làm việc cùng các ứng dụng khác trên máy của bạn để hỗ trợ công việc",
-            correct: true },
-          { en: "Share your screen with Anthropic engineers",
-            vi: "Chia sẻ màn hình với kỹ sư Anthropic" },
-          { en: "Buy Claude credits with one click",
-            vi: "Mua credit Claude bằng một cú nhấp chuột" }
-        ],
-        explanation: {
-          en: "Cowork lets Claude assist you in the context of your other applications so it can help with tasks running on your computer.",
-          vi: "Cowork cho phép Claude hỗ trợ bạn trong ngữ cảnh các ứng dụng khác để giúp xử lý công việc đang chạy trên máy."
-        }
-      },
-
-      // ─── Module 2 · Organizing your work and knowledge ──────────────
-      { module: "organize",
-        q: { en: "What are Projects in Claude?",
-             vi: "Projects trong Claude là gì?" },
-        options: [
-          { en: "Public forums for sharing prompts",
-            vi: "Diễn đàn công khai để chia sẻ prompt" },
-          { en: "Workspaces with their own custom instructions and uploaded knowledge for ongoing work",
-            vi: "Không gian làm việc có chỉ dẫn riêng và kiến thức đã upload cho công việc dài hạn",
-            correct: true },
-          { en: "A billing tier above Pro",
-            vi: "Một gói cước cao hơn Pro" },
-          { en: "Background tasks that auto-run for you",
-            vi: "Các tác vụ nền tự chạy giúp bạn" }
-        ],
-        explanation: {
-          en: "Projects are dedicated spaces where you can give Claude custom instructions and add reference files so every conversation in the project shares the same context.",
-          vi: "Projects là không gian riêng biệt, nơi bạn cho Claude chỉ dẫn tùy chỉnh và bổ sung tài liệu tham chiếu để mọi cuộc trò chuyện trong project dùng chung bối cảnh."
-        }
-      },
-      { module: "organize",
-        q: { en: "Why are project knowledge / uploaded files useful?",
-             vi: "Vì sao project knowledge / file đã upload lại hữu ích?" },
-        options: [
-          { en: "Claude can reference them across every conversation in that project",
-            vi: "Claude có thể tham chiếu chúng trong mọi cuộc trò chuyện thuộc project đó",
-            correct: true },
-          { en: "They make Claude reply faster",
-            vi: "Chúng giúp Claude trả lời nhanh hơn" },
-          { en: "They unlock new models",
-            vi: "Chúng mở khóa các model mới" },
-          { en: "They allow you to edit other users' projects",
-            vi: "Chúng cho phép sửa project của người khác" }
-        ],
-        explanation: {
-          en: "Project files act as persistent context: Claude can use them across all chats inside that project without you having to re-upload them.",
-          vi: "File trong project là bối cảnh bền vững: Claude có thể dùng chúng trong mọi cuộc trò chuyện của project mà bạn không phải upload lại."
-        }
-      },
-      { module: "organize",
-        q: { en: "What is an Artifact in Claude?",
-             vi: "Artifact trong Claude là gì?" },
-        options: [
-          { en: "A type of paid subscription",
-            vi: "Một loại gói trả phí" },
-          { en: "A standalone, editable output (code, document, component, diagram, etc.) shown in a side panel",
-            vi: "Một đầu ra độc lập, có thể chỉnh sửa (code, tài liệu, component, sơ đồ…) hiển thị ở bảng bên",
-            correct: true },
-          { en: "A user feedback report",
-            vi: "Một báo cáo phản hồi người dùng" },
-          { en: "A type of system prompt",
-            vi: "Một loại system prompt" }
-        ],
-        explanation: {
-          en: "Artifacts are substantial outputs (like code, docs, or interactive components) that Claude renders in a separate panel so you can iterate on them.",
-          vi: "Artifact là các đầu ra có giá trị thực thụ (code, tài liệu, component tương tác…) được Claude hiển thị ở khung riêng để bạn có thể chỉnh sửa và lặp lại."
-        }
-      },
-      { module: "organize",
-        q: { en: "When are Artifacts most useful?",
-             vi: "Artifact phát huy tác dụng nhất khi nào?" },
-        options: [
-          { en: "For one-line answers like definitions",
-            vi: "Cho câu trả lời một dòng như định nghĩa" },
-          { en: "When you're iterating on substantial content — code, long documents, components, charts",
-            vi: "Khi bạn cần lặp lại trên nội dung lớn — code, tài liệu dài, component, biểu đồ",
-            correct: true },
-          { en: "Only for sending emails",
-            vi: "Chỉ để gửi email" },
-          { en: "Only when offline",
-            vi: "Chỉ khi offline" }
-        ],
-        explanation: {
-          en: "Artifacts shine when the output is something you'll edit, reuse, or refine — code files, structured docs, components, etc.",
-          vi: "Artifact rất hiệu quả khi đầu ra là thứ bạn sẽ sửa, tái sử dụng hoặc tinh chỉnh — file code, tài liệu có cấu trúc, component…"
-        }
-      },
-      { module: "organize",
-        q: { en: "What are Skills in Claude?",
-             vi: "Skills trong Claude là gì?" },
-        options: [
-          { en: "Achievement badges Claude unlocks for you",
-            vi: "Huy hiệu thành tích Claude mở khóa cho bạn" },
-          { en: "Reusable, packaged capabilities or instructions Claude can apply to specific kinds of tasks",
-            vi: "Các năng lực/chỉ dẫn được đóng gói, dùng đi dùng lại cho từng loại công việc cụ thể",
-            correct: true },
-          { en: "Random tips shown in the sidebar",
-            vi: "Các mẹo ngẫu nhiên hiện ở thanh bên" },
-          { en: "Background-only features that you can't see",
-            vi: "Tính năng chạy ngầm mà bạn không thấy" }
-        ],
-        explanation: {
-          en: "Skills are reusable capabilities — bundles of instructions, examples, and assets — that Claude applies when a task calls for them.",
-          vi: "Skills là các năng lực dùng lại được — gồm chỉ dẫn, ví dụ và tài nguyên — Claude tự áp dụng khi công việc yêu cầu."
-        }
-      },
-      { module: "organize",
-        q: { en: "How are Skills typically activated?",
-             vi: "Skills thường được kích hoạt như thế nào?" },
-        options: [
-          { en: "You must compile them yourself in a terminal first",
-            vi: "Bạn phải tự biên dịch trong terminal trước" },
-          { en: "Claude selects and applies the relevant skill automatically when the task matches",
-            vi: "Claude tự chọn và áp dụng skill phù hợp khi công việc khớp",
-            correct: true },
-          { en: "They only work on weekends",
-            vi: "Chỉ hoạt động vào cuối tuần" },
-          { en: "They require a separate paid subscription per skill",
-            vi: "Mỗi skill cần một gói trả phí riêng" }
-        ],
-        explanation: {
-          en: "Claude automatically engages the right skill when the user's task matches what that skill is designed for.",
-          vi: "Claude tự kích hoạt đúng skill khi nhiệm vụ người dùng khớp với mục đích thiết kế của skill đó."
-        }
-      },
-
-      // ─── Module 3 · Expanding Claude's reach ────────────────────────
-      { module: "reach",
-        q: { en: "What does \"Connecting your tools\" enable Claude to do?",
-             vi: "“Kết nối công cụ của bạn” cho Claude khả năng gì?" },
-        options: [
-          { en: "Talk to other apps and data sources (e.g. via connectors / MCP) so it can act and look things up on your behalf",
-            vi: "Trao đổi với ứng dụng và nguồn dữ liệu khác (qua connectors / MCP) để hành động và tra cứu thay bạn",
-            correct: true },
-          { en: "Lock Claude to a single browser tab",
-            vi: "Khóa Claude vào một tab trình duyệt" },
-          { en: "Disable Claude's ability to write text",
-            vi: "Vô hiệu khả năng viết của Claude" },
-          { en: "Reset Claude's memory after every message",
-            vi: "Reset bộ nhớ Claude sau mỗi tin nhắn" }
-        ],
-        explanation: {
-          en: "Connectors (and the Model Context Protocol) let Claude securely use your other tools — pulling in data and taking actions across apps you connect.",
-          vi: "Các connector (và Model Context Protocol) cho phép Claude dùng các công cụ khác của bạn một cách an toàn — kéo dữ liệu và thực hiện hành động trên các app đã kết nối."
-        }
-      },
-      { module: "reach",
-        q: { en: "Which of these is a typical use of connected tools?",
-             vi: "Trường hợp dùng tiêu biểu của connected tools?" },
-        options: [
-          { en: "Summarizing a thread from Gmail or Slack and creating a follow-up doc",
-            vi: "Tóm tắt một thread Gmail/Slack và tạo tài liệu theo dõi",
-            correct: true },
-          { en: "Replacing Claude with another AI",
-            vi: "Thay Claude bằng một AI khác" },
-          { en: "Resetting your laptop firmware",
-            vi: "Reset firmware máy tính" },
-          { en: "Compiling Anthropic's source code",
-            vi: "Biên dịch mã nguồn của Anthropic" }
-        ],
-        explanation: {
-          en: "Connected tools shine for cross-app workflows — pulling messages or files from Gmail / Drive / Slack / GitHub, then drafting, summarizing, or saving the result.",
-          vi: "Connected tools mạnh nhất với các luồng đa-app — kéo email/file từ Gmail / Drive / Slack / GitHub rồi soạn, tóm tắt hoặc lưu kết quả."
-        }
-      },
-      { module: "reach",
-        q: { en: "What is Enterprise Search in Claude?",
-             vi: "Enterprise Search trong Claude là gì?" },
-        options: [
-          { en: "A search across the public web only",
-            vi: "Tìm kiếm chỉ trên web công cộng" },
-          { en: "A capability that lets Claude search across an organization's own connected data sources to ground its answers",
-            vi: "Khả năng cho Claude tìm kiếm trong các nguồn dữ liệu của tổ chức để dựa vào đó đưa ra câu trả lời",
-            correct: true },
-          { en: "A separate stand-alone search engine you install",
-            vi: "Một công cụ tìm kiếm riêng phải cài đặt" },
-          { en: "A consumer-only feature in Claude Free",
-            vi: "Tính năng chỉ có trên gói Claude Free" }
-        ],
-        explanation: {
-          en: "Enterprise Search lets Claude query an organization's connected knowledge so answers are grounded in the company's real data.",
-          vi: "Enterprise Search để Claude truy vấn kho tri thức đã kết nối của tổ chức, giúp câu trả lời dựa trên dữ liệu thực của công ty."
-        }
-      },
-      { module: "reach",
-        q: { en: "What is Research mode best suited for?",
-             vi: "Research mode phù hợp nhất cho việc gì?" },
-        options: [
-          { en: "Quick yes/no answers",
-            vi: "Trả lời nhanh có/không" },
-          { en: "Deep, multi-step research where Claude autonomously gathers and synthesizes many sources",
-            vi: "Nghiên cứu sâu, nhiều bước, Claude tự thu thập và tổng hợp nhiều nguồn",
-            correct: true },
-          { en: "Sending automated emails",
-            vi: "Gửi email tự động" },
-          { en: "Replacing your calendar app",
-            vi: "Thay thế ứng dụng lịch" }
-        ],
-        explanation: {
-          en: "Research mode runs longer, autonomous workflows that pull in multiple sources and produce comprehensive, synthesized reports.",
-          vi: "Research mode chạy luồng tự chủ, lâu hơn, kéo nhiều nguồn và sinh ra báo cáo tổng hợp đầy đủ."
-        }
-      },
-      { module: "reach",
-        q: { en: "How does Research mode differ from a regular chat?",
-             vi: "Research mode khác chat thông thường ở điểm nào?" },
-        options: [
-          { en: "It always returns one-sentence answers",
-            vi: "Luôn trả lời chỉ một câu" },
-          { en: "It takes longer, runs autonomously across many steps and sources, and returns a structured report",
-            vi: "Tốn thời gian hơn, tự chạy qua nhiều bước và nguồn, trả về một báo cáo có cấu trúc",
-            correct: true },
-          { en: "It hides every citation",
-            vi: "Ẩn toàn bộ nguồn trích dẫn" },
-          { en: "It disables the chat interface forever",
-            vi: "Vô hiệu vĩnh viễn giao diện chat" }
-        ],
-        explanation: {
-          en: "Research mode is for deep dives: Claude plans, searches, reasons across many sources, and assembles a thorough output rather than a quick reply.",
-          vi: "Research mode dành cho đào sâu: Claude lập kế hoạch, tìm kiếm, lập luận trên nhiều nguồn và ráp thành kết quả kỹ lưỡng thay vì câu trả lời nhanh."
-        }
-      },
-
-      // ─── Module 4 · Putting it all together ─────────────────────────
-      { module: "together",
-        q: { en: "Which Claude use case best fits a marketer?",
-             vi: "Tình huống dùng Claude nào hợp với marketer?" },
-        options: [
-          { en: "Refactoring legacy C code",
-            vi: "Refactor mã C cũ" },
-          { en: "Drafting copy, brainstorming campaigns, summarizing customer research",
-            vi: "Soạn nội dung, brainstorm chiến dịch, tóm tắt nghiên cứu khách hàng",
-            correct: true },
-          { en: "Operating industrial robots",
-            vi: "Vận hành robot công nghiệp" },
-          { en: "Manufacturing semiconductors",
-            vi: "Sản xuất bán dẫn" }
-        ],
-        explanation: {
-          en: "For marketing, typical Claude use cases include drafting and editing copy, generating campaign ideas, and summarizing surveys or interviews.",
-          vi: "Với marketing, Claude thường dùng để soạn/chỉnh nội dung, sinh ý tưởng chiến dịch, và tóm tắt khảo sát hoặc phỏng vấn."
-        }
-      },
-      { module: "together",
-        q: { en: "Which is a great Claude use case for software engineers?",
-             vi: "Tình huống tốt cho lập trình viên?" },
-        options: [
-          { en: "Code review, debugging, refactoring, and generating tests",
-            vi: "Review code, gỡ lỗi, refactor và sinh test",
-            correct: true },
-          { en: "Designing physical hardware boards",
-            vi: "Thiết kế bo mạch vật lý" },
-          { en: "Replacing Git completely",
-            vi: "Thay thế hoàn toàn Git" },
-          { en: "Booking flights",
-            vi: "Đặt vé máy bay" }
-        ],
-        explanation: {
-          en: "Engineers use Claude for code review, debugging, refactors, generating tests and docs, and explaining unfamiliar code.",
-          vi: "Lập trình viên dùng Claude để review code, gỡ lỗi, refactor, sinh test/tài liệu và giải thích code lạ."
-        }
-      },
-      { module: "together",
-        q: { en: "Which is a typical Claude use case for analysts or operations?",
-             vi: "Tình huống điển hình cho analyst / vận hành?" },
-        options: [
-          { en: "Summarizing reports, cleaning data, generating dashboards or charts",
-            vi: "Tóm tắt báo cáo, làm sạch dữ liệu, tạo dashboard / biểu đồ",
-            correct: true },
-          { en: "Performing on-stage live music",
-            vi: "Biểu diễn nhạc sống trên sân khấu" },
-          { en: "Forging signatures",
-            vi: "Giả mạo chữ ký" },
-          { en: "Replacing the company CFO",
-            vi: "Thay thế CFO của công ty" }
-        ],
-        explanation: {
-          en: "Analysts use Claude to clean data, draft SQL, summarize reports, and generate visualizations or briefs.",
-          vi: "Analyst dùng Claude để làm sạch dữ liệu, soạn SQL, tóm tắt báo cáo và tạo trực quan hóa hoặc tóm lược."
-        }
-      },
-      { module: "together",
-        q: { en: "Other than the desktop and web apps, which is a real way to work with Claude?",
-             vi: "Ngoài ứng dụng web/desktop, cách nào khác cũng có thể dùng Claude?" },
-        options: [
-          { en: "Through the Anthropic API and integrations / SDKs",
-            vi: "Qua Anthropic API và các tích hợp / SDK",
-            correct: true },
-          { en: "Only through fax",
-            vi: "Chỉ qua máy fax" },
-          { en: "Only by mailing a USB stick",
-            vi: "Chỉ bằng cách gửi USB qua bưu điện" },
-          { en: "Only via printed books",
-            vi: "Chỉ thông qua sách in" }
-        ],
-        explanation: {
-          en: "Beyond the apps you can build with the Anthropic API, integrate Claude into your tools (Slack, IDEs, custom apps), and use SDKs / mobile apps.",
-          vi: "Ngoài app sẵn có, bạn có thể dùng Anthropic API để build, tích hợp Claude vào công cụ (Slack, IDE, app riêng) và dùng SDK / app di động."
-        }
-      },
-
-      // ─── Module 5 · Conclusion & certificate ────────────────────────
-      { module: "finish",
-        q: { en: "After Claude 101, what's a sensible next step?",
-             vi: "Sau Claude 101, bước tiếp theo hợp lý là gì?" },
-        options: [
-          { en: "Apply Claude to your own workflow and explore deeper Anthropic Academy courses (e.g. prompting, building with the API)",
-            vi: "Áp dụng Claude vào công việc của bạn và khám phá các khóa nâng cao của Anthropic Academy (như prompting, build với API)",
-            correct: true },
-          { en: "Stop using AI tools entirely",
-            vi: "Ngừng dùng mọi công cụ AI" },
-          { en: "Reset all your projects and start over",
-            vi: "Xóa hết các project và bắt đầu lại" },
-          { en: "Send your certificate to your CEO and demand a raise",
-            vi: "Gửi chứng chỉ cho CEO và đòi tăng lương" }
-        ],
-        explanation: {
-          en: "The course's 'What's next?' section points learners to apply Claude in real work and continue with more advanced learning resources.",
-          vi: "Phần ‘What's next?’ khuyến nghị học viên áp dụng Claude vào công việc thật và tiếp tục với các tài nguyên học nâng cao hơn."
-        }
-      },
-      { module: "finish",
-        q: { en: "Where does the certificate of completion come from?",
-             vi: "Chứng chỉ hoàn thành được cấp từ đâu?" },
-        options: [
-          { en: "Issued via Skilljar after completing the Claude 101 modules",
-            vi: "Cấp qua Skilljar sau khi hoàn thành các module của Claude 101",
-            correct: true },
-          { en: "Mailed by Anthropic in a paper envelope only",
-            vi: "Gửi bằng phong bì giấy của Anthropic" },
-          { en: "Generated by an unrelated third-party site",
-            vi: "Sinh ra bởi một website bên thứ ba không liên quan" },
-          { en: "It is sold separately for an extra fee",
-            vi: "Phải mua riêng với một khoản phí" }
-        ],
-        explanation: {
-          en: "Skilljar issues the certificate after you complete the course requirements; it tracks progress and quiz scores so it can certify completion.",
-          vi: "Skilljar cấp chứng chỉ sau khi bạn hoàn tất yêu cầu khóa học; hệ thống theo dõi tiến độ và điểm trắc nghiệm để chứng nhận."
-        }
-      },
-
-      // ─── Bonus · Data and privacy (from the page FAQ) ───────────────
-      { module: "privacy",
-        q: { en: "What is Skilljar in this context?",
-             vi: "Trong bối cảnh này, Skilljar là gì?" },
-        options: [
-          { en: "A learning management system that hosts the course content",
-            vi: "Một hệ thống quản lý học tập (LMS) lưu trữ nội dung khóa học",
-            correct: true },
-          { en: "A new Claude AI model",
-            vi: "Một model Claude AI mới" },
-          { en: "Anthropic's desktop app",
-            vi: "Ứng dụng desktop của Anthropic" },
-          { en: "A web search engine",
-            vi: "Một công cụ tìm kiếm web" }
-        ],
-        explanation: {
-          en: "Skilljar is the LMS that hosts Anthropic's educational content and tracks your progress through the course.",
-          vi: "Skilljar là LMS lưu trữ nội dung giáo dục của Anthropic và theo dõi tiến độ học của bạn."
-        }
-      },
-      { module: "privacy",
-        q: { en: "Which data does Skilljar collect about your learning?",
-             vi: "Skilljar thu thập dữ liệu nào về quá trình học của bạn?" },
-        options: [
-          { en: "Course progress, lesson completion, quiz scores, and time spent",
-            vi: "Tiến độ khóa học, mức hoàn thành bài, điểm quiz và thời gian học",
-            correct: true },
-          { en: "Bank account information",
-            vi: "Thông tin tài khoản ngân hàng" },
-          { en: "Your full browsing history outside the course",
-            vi: "Toàn bộ lịch sử duyệt web bên ngoài khóa học" },
-          { en: "Nothing — Skilljar collects no data",
-            vi: "Không gì cả — Skilljar không thu dữ liệu" }
-        ],
-        explanation: {
-          en: "Skilljar collects basic learning analytics such as course progress, lesson completion, quiz scores, and time spent on materials.",
-          vi: "Skilljar thu thập dữ liệu học tập cơ bản: tiến độ, mức hoàn thành bài, điểm quiz và thời gian học."
-        }
-      },
-      { module: "privacy",
-        q: { en: "How is Skilljar data different from your Anthropic account data?",
-             vi: "Dữ liệu Skilljar khác gì với dữ liệu tài khoản Anthropic?" },
-        options: [
-          { en: "Skilljar tracks course progress; your Anthropic account manages access to Anthropic Console / Claude AI services",
-            vi: "Skilljar theo dõi tiến độ khóa học; tài khoản Anthropic quản lý truy cập Anthropic Console / Claude AI",
-            correct: true },
-          { en: "They are exactly the same data",
-            vi: "Là cùng một loại dữ liệu" },
-          { en: "Skilljar handles billing and Anthropic handles courses",
-            vi: "Skilljar lo thanh toán, Anthropic lo khóa học" },
-          { en: "Skilljar stores Anthropic's source code",
-            vi: "Skilljar lưu mã nguồn của Anthropic" }
-        ],
-        explanation: {
-          en: "Skilljar only tracks learning progress on the course platform; the Anthropic account manages access to Claude AI services and the Console.",
-          vi: "Skilljar chỉ theo dõi tiến độ học trên nền tảng khóa học; tài khoản Anthropic quản lý truy cập các dịch vụ Claude AI và Console."
-        }
-      },
-      { module: "privacy",
-        q: { en: "Which best describes Skilljar's security?",
-             vi: "Mô tả nào đúng nhất về bảo mật của Skilljar?" },
-        options: [
-          { en: "Industry-standard security: encryption, secure hosting, audits, and SOC 2 compliance",
-            vi: "Bảo mật chuẩn ngành: mã hóa, lưu trữ an toàn, kiểm tra và tuân thủ SOC 2",
-            correct: true },
-          { en: "No encryption and no audits",
-            vi: "Không mã hóa và không kiểm tra" },
-          { en: "Only secured in some regions",
-            vi: "Chỉ an toàn ở một vài khu vực" },
-          { en: "Security depends entirely on the user's device",
-            vi: "Bảo mật phụ thuộc hoàn toàn vào thiết bị người dùng" }
-        ],
-        explanation: {
-          en: "Skilljar uses industry-standard security with data encryption, secure hosting, regular audits, and SOC 2 compliance.",
-          vi: "Skilljar dùng các biện pháp bảo mật chuẩn ngành: mã hóa dữ liệu, lưu trữ an toàn, kiểm tra định kỳ và tuân thủ SOC 2."
-        }
-      },
-      { module: "privacy",
-        q: { en: "How do you request deletion of your learning data or account?",
-             vi: "Làm sao để yêu cầu xóa dữ liệu học hoặc tài khoản?" },
-        options: [
-          { en: "Email academy-support@anthropic.com",
-            vi: "Gửi email tới academy-support@anthropic.com",
-            correct: true },
-          { en: "Delete it from the Anthropic Console settings",
-            vi: "Xóa trong cài đặt Anthropic Console" },
-          { en: "Wait — it auto-deletes after one day",
-            vi: "Chờ — sẽ tự xóa sau một ngày" },
-          { en: "You cannot delete it under any condition",
-            vi: "Không thể xóa trong mọi tình huống" }
-        ],
-        explanation: {
-          en: "Email academy-support@anthropic.com to request deletion. Requests are handled per applicable privacy laws and the data retention policy.",
-          vi: "Gửi email tới academy-support@anthropic.com để yêu cầu xóa. Yêu cầu được xử lý theo luật về quyền riêng tư hiện hành và chính sách lưu giữ dữ liệu."
-        }
-      },
-      { module: "privacy",
-        q: { en: "Do you need an Anthropic account just to access the Claude 101 content?",
-             vi: "Có cần tài khoản Anthropic chỉ để vào nội dung Claude 101 không?" },
-        options: [
-          { en: "No — only a Skilljar account is required; an Anthropic account is needed only for using Claude AI services",
-            vi: "Không — chỉ cần tài khoản Skilljar; tài khoản Anthropic chỉ cần khi dùng các dịch vụ Claude AI",
-            correct: true },
-          { en: "Yes, an Anthropic account is required",
-            vi: "Có, bắt buộc phải có tài khoản Anthropic" },
-          { en: "You need both accounts plus a paid subscription",
-            vi: "Cần cả hai tài khoản và một gói trả phí" },
-          { en: "You need a GitHub account",
-            vi: "Cần một tài khoản GitHub" }
-        ],
-        explanation: {
-          en: "Only a Skilljar account is required to take the course. You only need an Anthropic account at claude.ai if you want to use Claude AI services.",
-          vi: "Chỉ cần tài khoản Skilljar để học khóa này. Tài khoản Anthropic tại claude.ai chỉ cần khi muốn dùng các dịch vụ Claude AI."
-        }
-      }
-    ];
-
-    const quizEl = document.getElementById("quiz");
-    const scoreEl = document.getElementById("score");
-    const totalEl = document.getElementById("total");
-    const answeredEl = document.getElementById("answered");
-    const progressEl = document.getElementById("progress-bar");
-    const banner = document.getElementById("result-banner");
-    const resultTitle = document.getElementById("result-title");
-    const resultDesc = document.getElementById("result-desc");
-
-    const state = { score: 0, answered: 0, picks: new Array(QUESTIONS.length).fill(null) };
-    totalEl.textContent = QUESTIONS.length;
-    const total2El = document.getElementById("total2");
-    if (total2El) total2El.textContent = QUESTIONS.length;
-
-    function letter(i) { return String.fromCharCode(65 + i); }
-
-    function bilingual(en, vi) {
-      const wrap = document.createElement("span");
-      const a = document.createElement("span"); a.dataset.en = ""; a.textContent = en;
-      const b = document.createElement("span"); b.dataset.vi = ""; b.textContent = vi;
-      wrap.append(a, b);
-      return wrap;
-    }
-
-    function renderQuiz() {
-      quizEl.innerHTML = "";
-      let lastModule = null;
-      QUESTIONS.forEach((item, qi) => {
-        if (item.module && item.module !== lastModule) {
-          lastModule = item.module;
-          const head = document.createElement("div");
-          head.className = "module-head";
-          const eyebrow = document.createElement("div");
-          eyebrow.className = "eyebrow";
-          eyebrow.append(bilingual("Module", "Module"));
-          const title = document.createElement("h3");
-          const meta = MODULES[item.module];
-          title.append(bilingual(meta.en, meta.vi));
-          head.append(eyebrow, title);
-          quizEl.append(head);
-        }
-        const card = document.createElement("div");
-        card.className = "qcard";
-        card.dataset.qi = qi;
-
-        const head = document.createElement("div");
-        head.className = "qhead";
-        const num = document.createElement("div");
-        num.className = "qnum";
-        num.textContent = qi + 1;
-        const txt = document.createElement("div");
-        txt.className = "qtext";
-        txt.append(bilingual(item.q.en, item.q.vi));
-        head.append(num, txt);
-
-        const opts = document.createElement("div");
-        opts.className = "options";
-        item.options.forEach((opt, oi) => {
-          const row = document.createElement("div");
-          row.className = "option";
-          row.dataset.oi = oi;
-          if (opt.correct) row.dataset.correct = "true";
-
-          const tag = document.createElement("div");
-          tag.className = "opt-letter";
-          tag.textContent = letter(oi);
-
-          const text = document.createElement("div");
-          text.append(bilingual(opt.en, opt.vi));
-
-          row.append(tag, text);
-          row.addEventListener("click", () => onPick(qi, oi));
-          opts.append(row);
-        });
-
-        const expl = document.createElement("div");
-        expl.className = "explanation";
-        const verdict = document.createElement("span");
-        verdict.className = "verdict";
-        verdict.dataset.role = "verdict";
-        const explText = document.createElement("span");
-        explText.dataset.role = "expl-text";
-        explText.append(bilingual(item.explanation.en, item.explanation.vi));
-        expl.append(verdict, explText);
-
-        card.append(head, opts, expl);
-        quizEl.append(card);
-      });
-    }
-
-    function onPick(qi, oi) {
-      const card = quizEl.querySelector('.qcard[data-qi="' + qi + '"]');
-      if (!card || card.classList.contains("answered")) return;
-
-      const options = card.querySelectorAll(".option");
-      const picked = options[oi];
-      const isCorrect = picked.dataset.correct === "true";
-
-      card.classList.add("answered");
-      picked.classList.add(isCorrect ? "correct" : "wrong");
-
-      options.forEach((opt) => {
-        if (opt !== picked && opt.dataset.correct === "true") {
-          opt.classList.add("reveal");
-        }
-      });
-
-      const verdict = card.querySelector('[data-role="verdict"]');
-      verdict.classList.remove("good", "bad");
-      verdict.classList.add(isCorrect ? "good" : "bad");
-      verdict.innerHTML = "";
-      verdict.append(
-        bilingual(
-          isCorrect ? "Correct." : "Incorrect.",
-          isCorrect ? "Chính xác." : "Chưa đúng."
-        )
-      );
-
-      state.picks[qi] = oi;
-      state.answered += 1;
-      if (isCorrect) state.score += 1;
-      updateScore();
-
-      if (state.answered === QUESTIONS.length) showResult();
-    }
-
-    function updateScore() {
-      scoreEl.textContent = state.score;
-      answeredEl.textContent = state.answered;
-      progressEl.style.width = ((state.answered / QUESTIONS.length) * 100) + "%";
-    }
-
-    function showResult() {
-      const total = QUESTIONS.length;
-      const s = state.score;
-      const pct = Math.round((s / total) * 100);
-      let titleEn, titleVi, descEn, descVi;
-      if (pct === 100) {
-        titleEn = "Perfect score!"; titleVi = "Điểm tuyệt đối!";
-        descEn = "You got every question right. Nicely done."; 
-        descVi = "Bạn trả lời đúng tất cả các câu. Quá tuyệt!";
-      } else if (pct >= 70) {
-        titleEn = "Great job!"; titleVi = "Làm tốt lắm!";
-        descEn = "You scored " + s + " out of " + total + " (" + pct + "%).";
-        descVi = "Bạn được " + s + "/" + total + " (" + pct + "%).";
-      } else if (pct >= 40) {
-        titleEn = "Not bad."; titleVi = "Cũng được rồi.";
-        descEn = "You scored " + s + " out of " + total + ". Try again to improve.";
-        descVi = "Bạn được " + s + "/" + total + ". Hãy thử lại để cải thiện.";
-      } else {
-        titleEn = "Keep going."; titleVi = "Cố gắng thêm nhé.";
-        descEn = "You scored " + s + " out of " + total + ". Review the explanations and retry.";
-        descVi = "Bạn được " + s + "/" + total + ". Hãy xem lại phần giải thích và làm lại.";
-      }
-      resultTitle.innerHTML = "";
-      resultTitle.append(bilingual(titleEn, titleVi));
-      resultDesc.innerHTML = "";
-      resultDesc.append(bilingual(descEn, descVi));
-      banner.classList.add("show");
-    }
-
-    function reset() {
-      state.score = 0;
-      state.answered = 0;
-      state.picks.fill(null);
-      banner.classList.remove("show");
-      renderQuiz();
-      updateScore();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    document.getElementById("reset-btn").addEventListener("click", reset);
-    document.getElementById("result-reset").addEventListener("click", reset);
-
-    (function setupLang() {
+    (function () {
       const body = document.body;
       const btnEn = document.getElementById("btn-en");
       const btnVi = document.getElementById("btn-vi");
@@ -1205,17 +386,14 @@
         document.documentElement.setAttribute("lang", lang);
         btnEn.classList.toggle("active", lang === "en");
         btnVi.classList.toggle("active", lang === "vi");
-        try { localStorage.setItem("claude101-lang", lang); } catch (e) {}
+        try { localStorage.setItem("anthropic-academy-hub-lang", lang); } catch (e) {}
       }
       btnEn.addEventListener("click", () => setLang("en"));
       btnVi.addEventListener("click", () => setLang("vi"));
       let saved = "en";
-      try { saved = localStorage.getItem("claude101-lang") || "en"; } catch (e) {}
+      try { saved = localStorage.getItem("anthropic-academy-hub-lang") || "en"; } catch (e) {}
       setLang(saved);
     })();
-
-    renderQuiz();
-    updateScore();
   </script>
 </body>
 </html>
